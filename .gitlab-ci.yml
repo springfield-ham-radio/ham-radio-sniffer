@@ -1,0 +1,26 @@
+image: node:18-alpine
+
+stages:
+  - build
+  - publish
+
+cache:
+  key: modules
+  paths:
+    - node_modules/
+    - .yarn/cache/
+    - dist/
+
+build:
+  stage: build
+  script:
+    - yarn install
+    - yarn build
+
+publish:
+  stage: publish
+  only:
+    - tags
+  script:
+    - echo "//registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN" > ~/.npmrc
+    - npm publish --access public
