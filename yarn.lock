@@ -163,14 +163,42 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@springfield/ham-radio-driver-utils@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "@springfield/ham-radio-driver-utils@workspace:."
+"@springfield/ham-radio-api@npm:0.13.0":
+  version: 0.13.0
+  resolution: "@springfield/ham-radio-api@npm:0.13.0"
+  checksum: 8ea1f71ce4923513be31f7b9b64520041746d55242eb37888afeda15fc9457b5cec341a719635832cfbbf571414c1c50cb76f0f8852f94d01da009b26f2db85c
+  languageName: node
+  linkType: hard
+
+"@springfield/ham-radio-driver-api@npm:^0.13.0":
+  version: 0.13.0
+  resolution: "@springfield/ham-radio-driver-api@npm:0.13.0"
   dependencies:
-    "@types/node": ^18.15.0
-    "@types/sprintf-js": ^1
+    "@springfield/ham-radio-api": 0.13.0
     serialport: ^10.5.0
+    winston: ^3.8.2
+  checksum: f628b835555ffa41e478b27303a224e7ffdbda6bb4e8e154f4260919c78631d1d2ab40e5d303b189e60875c4ab7010c0d1923f781b014de55a6f6f6cd4adf5eb
+  languageName: node
+  linkType: hard
+
+"@springfield/ham-radio-driver-utils@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "@springfield/ham-radio-driver-utils@npm:0.1.0"
+  dependencies:
+    "@springfield/ham-radio-driver-api": ^0.13.0
     sprintf-js: ^1.1.2
+    winston: ^3.8.2
+  checksum: 87467c7c255268749b58cf23643a297c6bdba850ca4cca5d5e91536fb2d833f24e476abf2d15e4341492270c30dcb26ebe7e9fc413d76f931b900367e6ac5a52
+  languageName: node
+  linkType: hard
+
+"@springfield/ham-radio-sniffer@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@springfield/ham-radio-sniffer@workspace:."
+  dependencies:
+    "@springfield/ham-radio-driver-utils": ^0.1.0
+    "@types/node": ^18.15.0
+    serialport: ^10.5.0
     typescript: 4.9.5
     winston: ^3.8.2
   languageName: unknown
@@ -187,13 +215,6 @@ __metadata:
   version: 18.15.0
   resolution: "@types/node@npm:18.15.0"
   checksum: d81372276dd5053b1743338b61a2178ff9722dc609189d01fc7d1c2acd539414039e0e4780678730514390dad3f29c366a28c29e8dbd5b0025651181f6dd6669
-  languageName: node
-  linkType: hard
-
-"@types/sprintf-js@npm:^1":
-  version: 1.1.2
-  resolution: "@types/sprintf-js@npm:1.1.2"
-  checksum: 9679e069eebebd910af12e4f90cfde44cd9af5974792bac572f41cd365eca2a6868287679281f2eb600b7960b28ae951d2a1b5980fb2966be71af18f3def58c7
   languageName: node
   linkType: hard
 
