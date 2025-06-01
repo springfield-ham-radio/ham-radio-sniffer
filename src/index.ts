@@ -12,7 +12,7 @@ try {
   const radioPort = new SerialPort({ path: process.argv[3], baudRate: 9600 });
   const radioParser = radioPort.pipe(new ByteLengthParser({ length: 1 }));
 
-  console.log(`Starting data transfer`);
+  console.log(`Waiting for data transfer - press Ctrl+C to stop`);
 
   let currentComputerLine: number[] = [];
   let currentRadioLine: number[] = [];
