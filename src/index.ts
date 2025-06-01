@@ -59,10 +59,10 @@ try {
 
     for (let i = 0; i < maxLines; i++) {
       if (i < computerLines.length) {
-        outputLines.push(`Computer Line ${i + 1}: ${toHexWords(Uint8Array.from(computerLines[i]))}`);
+        outputLines.push(`Computer: ${toHexWords(Uint8Array.from(computerLines[i]))}`);
       }
       if (i < radioLines.length) {
-        outputLines.push(`Radio Line ${i + 1}: ${toHexWords(Uint8Array.from(radioLines[i]))}`);
+        outputLines.push(`Radio   : ${toHexWords(Uint8Array.from(radioLines[i]))}`);
       }
     }
 
