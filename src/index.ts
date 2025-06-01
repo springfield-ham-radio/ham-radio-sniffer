@@ -1,6 +1,7 @@
 import { SerialPort } from 'serialport';
 import { ByteLengthParser } from '@serialport/parser-byte-length';
 import { toHexWords } from '@springfield/ham-radio-utils';
+import * as fs from 'fs';
 
 try {
   console.log(`Opening computer port ${process.argv[2]}`);
@@ -41,25 +42,35 @@ try {
   });
 
   process.on('SIGINT', () => {
-    console.log('\nReceived Ctrl+C. Writing stored data to console:');
+    console.log('\nReceived Ctrl+C. Writing stored data to file...');
 
     // Add any remaining data in the current lines
     if (currentComputerLine.length > 0) {
       computerLines.push([...currentComputerLine]);
     }
+
     if (currentRadioLine.length > 0) {
       radioLines.push([...currentRadioLine]);
     }
 
-    console.log('Data from computer:');
-    computerLines.forEach((line, index) => {
-      console.log(`Line ${index + 1}: ${toHexWords(Uint8Array.from(line))}`);
-    });
+    // Create output content with interleaved data
+    const outputLines: string[] = [];
+    const maxLines = Math.max(computerLines.length, radioLines.length);
 
-    console.log('\nData from radio:');
-    radioLines.forEach((line, index) => {
-      console.log(`Line ${index + 1}: ${toHexWords(Uint8Array.from(line))}`);
-    });
+    for (let i = 0; i < maxLines; i++) {
+      if (i < computerLines.length) {
+        outputLines.push(`Computer Line ${i + 1}: ${toHexWords(Uint8Array.from(computerLines[i]))}`);
+      }
+      if (i < radioLines.length) {
+        outputLines.push(`Radio Line ${i + 1}: ${toHexWords(Uint8Array.from(radioLines[i]))}`);
+      }
+    }
+
+    // Write to file
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const filename = `radio-sniffer-${timestamp}.log`;
+    fs.writeFileSync(filename, outputLines.join('\n'));
+    console.log(`Data written to ${filename}`);
 
     process.exit(0);
   });
