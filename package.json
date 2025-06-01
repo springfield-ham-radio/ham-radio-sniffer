@@ -4,15 +4,15 @@
   "author": "Bryan Hunt",
   "type": "module",
   "main": "dist/index.js",
-  "scripts": {
-    "build": "tsc"
-  },
+  "packageManager": "yarn@4.9.1",
+  "types": "dist/index.d.ts",
   "files": [
     "src/",
     "dist/"
   ],
-  "types": "dist/index.d.ts",
-  "packageManager": "yarn@3.4.1",
+  "scripts": {
+    "build": "tsc"
+  },
   "dependencies": {
     "@springfield/ham-radio-utils": "^1.3.0",
     "serialport": "^13.0.0"
