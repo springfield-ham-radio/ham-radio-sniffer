@@ -1,0 +1,70 @@
+{
+  "plugins": [
+    "typescript",
+    "unicorn",
+    "import",
+    "react",
+    "react-perf",
+    "jsdoc",
+    "jsx-a11y",
+    "node",
+    "promise",
+    "jest"
+  ],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "error",
+    "restriction": "error",
+    "security": "error",
+    "performance": "warn",
+    "style": "warn",
+    "pedantic": "warn"
+  },
+  "rules": {
+    "no-unused-vars": "error",
+    "no-undef": "error",
+    "no-debugger": "error",
+    "no-console": "warn",
+    "eqeqeq": "error",
+    "no-eval": "error",
+    "no-implied-eval": "error",
+    "no-unsafe-finally": "error",
+    "no-unsafe-negation": "error",
+    "no-constant-condition": "error",
+    "no-const-assign": "error",
+    "no-var": "error",
+    "prefer-const": "error",
+    "import/no-unresolved": "error",
+    "import/no-extraneous-dependencies": "error",
+    "react/jsx-no-undef": "error",
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
+    "jsx-a11y/alt-text": "error",
+    "promise/always-return": "error",
+    "promise/no-return-wrap": "error",
+    "unicorn/prefer-query-selector": "error",
+    "unicorn/no-array-callback-reference": "error"
+  },
+  "ignorePatterns": [
+    "dist/",
+    "node_modules/",
+    "build/",
+    "coverage/"
+  ],
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2022": true,
+    "jest": true
+  },
+  "globals": {
+    "process": "readonly",
+    "__dirname": "readonly"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
+}
+
