@@ -11,7 +11,10 @@
     "dist/"
   ],
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "commitlint": "commitlint --edit",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix --fix-suggestions"
   },
   "dependencies": {
     "@springfield/ham-radio-utils": "^1.3.0",
