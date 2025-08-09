@@ -1,0 +1,26 @@
+---
+description: "Standards and practices for testing"
+globs: *.ts
+---
+
+# Testing Rules
+
+This document defines the testing standards and practices.
+
+## Core Requirements
+
+### Test-Driven Development (TDD)
+
+Always use test driven development (aka Red, Green, Refactor)
+
+- **Red Phase**: Start by writing a test that describes the desired behavior and fails
+- **Green Phase**: Implement the minimum code needed to make the test pass
+- **Refactor Phase**: Refactor the implementation to improve code quality while ensuring tests remain green
+- **Completion**: Only proceed to the next feature after completing all three phases
+
+### Test Organization
+
+- **Unit Tests**: Place in `test/unit` folder
+- **Integration Tests**: Place in `test/integration` folder
+- **E2E Tests**: Place in `test/e2e` folder
+- Use descriptive test file names that match the source file being tested

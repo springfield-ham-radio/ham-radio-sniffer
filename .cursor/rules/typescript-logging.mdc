@@ -1,0 +1,122 @@
+---
+description: "Standards and practices for logging"
+globs: *.ts
+---
+
+# Logging Rules
+
+This document defines the logging standards and practices.
+
+## Core Requirements
+
+### Logging Framework
+
+- Use the `loglayer` module for logging throughout the application
+- Import and use the `ILogLayer` interface from loglayer for type safety
+- Use `MockLogLayer` as the logger instance for all testing scenarios
+
+### Error Logging
+
+- Use `logger.withError()` method when logging Error instances
+- This ensures proper error serialization and stack trace preservation
+
+### Data Logging
+
+- Use `logger.withMetadata()` method for logging data values and objects
+- This provides structured logging with proper metadata handling
+
+## Testing
+
+When creating tests, do not validate log messages because MockLogLayer will not output any data for logs.
+
+## Log Level Guidelines
+
+### Debug Level (`logger.debug()`)
+
+**When to use:**
+
+- Detailed diagnostic information for troubleshooting
+- Function entry/exit points during development
+- Variable values and state information
+- Performance metrics and timing data
+- Database query details (without sensitive data)
+
+### Info Level (`logger.info()`)
+
+**When to use:**
+
+- General application flow and business events
+- Service startup, shutdown, and health checks
+- User actions and business transactions
+- Configuration changes and feature toggles
+- Scheduled job execution
+
+**Examples:**
+
+### Warn Level (`logger.warn()`)
+
+**When to use:**
+
+- Unexpected but recoverable situations
+- Deprecated feature usage
+- Performance degradation
+- Resource constraints (high memory, disk space)
+- External service degradation
+- Retry attempts and fallback mechanisms
+
+### Error Level (`logger.error()`)
+
+**When to use:**
+
+- Application errors that need immediate attention
+- Unhandled exceptions and crashes
+- Data corruption or integrity issues
+- Critical business logic failures
+- External service failures that impact functionality
+
+### Fatal Level (`logger.fatal()`)
+
+**When to use:**
+
+- Application cannot continue running
+- Data corruption that requires immediate shutdown
+- Security breaches or unauthorized access attempts
+- System resource exhaustion
+- Critical configuration errors
+
+**Examples:**
+
+```typescript
+logger.fatal('Application cannot start - missing critical configuration', { missingConfig: 'DATABASE_URL' });
+logger.fatal('Security breach detected', { ipAddress: '192.168.1.1', attemptCount: 1000 });
+logger.fatal('Database corruption detected', { table: 'users', corruptionType: 'index_corruption' });
+```
+
+## Best Practices
+
+### When to Use Each Method
+
+- **`logger.withError()`**: For exceptions, errors, and any Error instances
+- **`logger.withMetadata()`**: For logging objects, arrays, or structured data
+- **Standard logging methods**: For simple string messages and basic information
+
+### Testing Considerations
+
+- Always use `MockLogLayer` in unit and integration tests
+
+## Examples
+
+```typescript
+// Error logging
+try {
+  // some operation
+} catch (error) {
+  logger.withError(error).error('Operation failed');
+}
+
+// Data logging
+logger.withMetadata({ userId: 123, action: 'login' }).info('User logged in');
+
+// Simple logging
+logger.info('Application started');
+```

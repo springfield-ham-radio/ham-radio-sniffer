@@ -1,0 +1,20 @@
+---
+description: 'General standards and practices'
+alwaysApply: true
+---
+
+# General Rules
+
+This document defines the general project standards and practices.
+
+## Core Requirements
+
+### Documentation
+
+- **Documentation Location**: All project documentation is located in the `docs` folder
+- **Documentation Structure**: Organize documentation by topic and audience
+- **Keep Documentation Updated**: Update documentation when code changes affect functionality
+
+### Files
+
+- Use the settings in .editorconfig in the root of the project when generating files.

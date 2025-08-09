@@ -1,0 +1,304 @@
+---
+description: "Typescript Standards and practices for testing"
+globs: *.ts
+---
+
+# Typescript Testing Rules
+
+This document defines the testing standards and practices for Typescript.
+
+## Core Requirements
+
+### Test Framework
+
+- Use NodeJS native test runner for all testing
+- Use `describe` and `it` for test structure
+- Use `chai` expect assertions for assertions
+- Place all test files in the `test` folder
+
+### Running Tests
+
+- **`yarn test`**: Run all tests if they exist
+- **`yarn test:unit`**: Run unit tests if they exist
+- **`yarn test:integration`**: Run integration tests if they exist
+- **`yarn test:e2e`**: Run end-to-end tests if they exist
+- **Important**: The `yarn test:*` commands do not accept extra parameters
+- **For specific tests**: Use `tsx` with proper command line arguments for the NodeJS native test runner
+
+**Examples:**
+
+```bash
+# Run all tests
+yarn test
+
+# Run only unit tests
+yarn test:unit
+
+# Run only integration tests
+yarn test:integration
+
+# Run only e2e tests
+yarn test:e2e
+
+# Run a specific test file
+tsx --test test/unit/services/user-service.test.ts
+
+# Run tests with specific pattern (NodeJS native test runner syntax)
+tsx --test --test-name-pattern="should validate email" test/unit/
+
+# Run tests with coverage
+tsx --test --test-reporter=spec --test-reporter=lcov --experimental-test-coverage test/unit/
+
+# Run tests with custom reporter
+tsx --test --test-reporter=spec test/unit/
+```
+
+## Best Practices
+
+### Test Structure
+
+```typescript
+import { describe, it } from 'node:test';
+import { expect } from 'chai';
+
+describe('ComponentName', () => {
+  describe('methodName', () => {
+    it('should do something specific', () => {
+      // Arrange
+      const input = 'test';
+
+      // Act
+      const result = method(input);
+
+      // Assert
+      expect(result).to.equal('expected');
+    });
+  });
+});
+```
+
+### HTTP Mocking
+
+- Use `nock` to mock HTTP responses for unit tests
+- Mock external API calls to ensure test isolation
+- Verify that mocked endpoints are called with expected parameters
+
+```typescript
+import nock from 'nock';
+
+describe('API Client', () => {
+  it('should fetch user data', async () => {
+    // Arrange
+    const mockUser = { id: 1, name: 'Test User' };
+    nock('https://api.example.com').get('/users/1').reply(200, mockUser);
+
+    // Act
+    const result = await apiClient.getUser(1);
+
+    // Assert
+    expect(result).to.deep.equal(mockUser);
+  });
+});
+```
+
+### Test Data Generation
+
+- Use `fishery.Factory` for generating test data
+- Create factories for complex objects to ensure consistent test data
+- Use descriptive factory names that indicate the purpose
+
+```typescript
+import { Factory } from 'fishery';
+
+const UserFactory = Factory.define<User>(() => ({
+  id: 1,
+  name: 'Test User',
+  email: 'test@example.com',
+  createdAt: new Date(),
+}));
+
+describe('UserService', () => {
+  it('should create a new user', () => {
+    // Arrange
+    const userData = UserFactory.build();
+
+    // Act
+    const result = userService.createUser(userData);
+
+    // Assert
+    expect(result).to.have.property('id');
+    expect(result.name).to.equal(userData.name);
+  });
+});
+```
+
+### TDD Workflow Examples
+
+#### Red Phase - Writing Failing Test
+
+```typescript
+describe('Calculator', () => {
+  it('should add two numbers', () => {
+    // This test will fail until we implement the add method
+    const calculator = new Calculator();
+    const result = calculator.add(2, 3);
+    expect(result).to.equal(5);
+  });
+});
+```
+
+#### Green Phase - Minimal Implementation
+
+```typescript
+class Calculator {
+  add(a: number, b: number): number {
+    return a + b; // Minimal implementation to make test pass
+  }
+}
+```
+
+#### Refactor Phase - Improve Code Quality
+
+```typescript
+class Calculator {
+  add(a: number, b: number): number {
+    if (typeof a !== 'number' || typeof b !== 'number') {
+      throw new Error('Both arguments must be numbers');
+    }
+    return a + b;
+  }
+}
+```
+
+### Testing Considerations
+
+#### Unit Tests
+
+- Test individual functions and methods in isolation
+- Mock dependencies to ensure test isolation
+- Focus on testing the specific behavior of the unit under test
+- Use meaningful test descriptions that explain the expected behavior
+
+```typescript
+describe('UserValidator', () => {
+  it('should return true for valid email', () => {
+    const validator = new UserValidator();
+    const result = validator.isValidEmail('test@example.com');
+    expect(result).to.be.true;
+  });
+
+  it('should return false for invalid email', () => {
+    const validator = new UserValidator();
+    const result = validator.isValidEmail('invalid-email');
+    expect(result).to.be.false;
+  });
+});
+```
+
+#### Integration Tests
+
+- Test the interaction between multiple components
+- Use real dependencies when possible
+- Test complete workflows and user journeys
+- Verify that components work together correctly
+
+```typescript
+describe('UserService Integration', () => {
+  it('should create user and send welcome email', async () => {
+    // Arrange
+    const userData = UserFactory.build();
+    const emailService = new EmailService();
+
+    // Act
+    const user = await userService.createUser(userData);
+    const emailSent = await emailService.sendWelcomeEmail(user);
+
+    // Assert
+    expect(user).to.have.property('id');
+    expect(emailSent).to.be.true;
+  });
+});
+```
+
+#### E2E Tests
+
+- Test complete user workflows from start to finish
+- Use real browser automation tools
+- Test critical user paths and edge cases
+- Verify that the entire system works as expected
+
+### Performance Testing
+
+- Test performance-critical code with timing assertions
+- Use performance benchmarks for optimization validation
+- Test memory usage and garbage collection
+- Verify that performance requirements are met
+
+```typescript
+describe('Performance Tests', () => {
+  it('should process large dataset within time limit', () => {
+    const startTime = performance.now();
+
+    // Act
+    const result = processLargeDataset(largeData);
+
+    const endTime = performance.now();
+    const duration = endTime - startTime;
+
+    // Assert
+    expect(duration).to.be.lessThan(1000); // 1 second limit
+    expect(result).to.have.length(largeData.length);
+  });
+});
+```
+
+### Error Testing
+
+- Test error conditions and edge cases
+- Verify that appropriate error messages are returned
+- Test error handling and recovery mechanisms
+- Ensure that errors are logged appropriately
+
+```typescript
+describe('Error Handling', () => {
+  it('should throw error for invalid input', () => {
+    expect(() => {
+      processData(null);
+    }).to.throw('Input cannot be null');
+  });
+
+  it('should handle network errors gracefully', async () => {
+    nock('https://api.example.com').get('/data').replyWithError('Network error');
+
+    const result = await apiClient.getData();
+    expect(result).to.be.null;
+  });
+});
+```
+
+## Examples
+
+```typescript
+// Complete TDD example
+describe('StringCalculator', () => {
+  describe('add', () => {
+    it('should return 0 for empty string', () => {
+      const calculator = new StringCalculator();
+      const result = calculator.add('');
+      expect(result).to.equal(0);
+    });
+
+    it('should return sum for single number', () => {
+      const calculator = new StringCalculator();
+      const result = calculator.add('5');
+      expect(result).to.equal(5);
+    });
+
+    it('should return sum for two numbers', () => {
+      const calculator = new StringCalculator();
+      const result = calculator.add('1,2');
+      expect(result).to.equal(3);
+    });
+  });
+});
+```

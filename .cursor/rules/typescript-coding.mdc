@@ -1,0 +1,641 @@
+---
+description: "Typescript coding standards and best practices"
+globs: *.ts,*.vue
+---
+
+# Typescript Coding Rules
+
+This document defines the coding standards and best practices for Typescript development.
+
+## Core Requirements
+
+### Code Style
+
+- **Ending Semicolons**: Use ending semicolons for all statements
+- **Naming Conventions**: Avoid abbreviations for variable and function names unless they are common (i, j, id, config)
+- **Blank Lines**: Put a blank line before and after code blocks (if, for, while, try) unless they are the first/last line of a parent block
+- **ESM Imports**: Use ESM for all imports
+- **TypeScript**: Use TypeScript for all new code
+
+### Type Safety
+
+- **Avoid `any`**: Never use the `any` type - use proper type definitions or `unknown` when type is uncertain
+- **Unused Parameters**: Prefix unused parameters with underscore
+- **Readonly Members**: Mark class members as readonly if they are never reassigned
+
+### Error Handling
+
+- **Graceful Error Handling**: Handle errors gracefully with try-catch blocks
+- **Error Logging**: Always log errors and provide meaningful error messages using loglayer
+- **Async Operations**: Use try-catch or handle promise rejections appropriately for async operations
+
+### Code Quality
+
+- **Remove Unused Variables**: Keep code clean by removing unused variables
+- **Small Functions**: Keep functions small and focused on a single responsibility
+- **Documentation**: Add JSDoc comments for public functions exported by the module
+- **Documentation Focus**: When documenting code, focus on explaining the reasoning and business logic rather than just describing what the code does
+
+## Best Practices
+
+### Code Style Examples
+
+#### Proper Semicolon Usage
+
+```typescript
+// Good - ending semicolons
+const user = {
+  id: 1,
+  name: 'John Doe',
+};
+
+function getUser(id: number): User {
+  return users.find((user) => user.id === id);
+}
+
+// Bad - missing semicolons
+const user = {
+  id: 1,
+  name: 'John Doe',
+};
+
+function getUser(id: number): User {
+  return users.find((user) => user.id === id);
+}
+```
+
+#### Naming Conventions
+
+```typescript
+// Good - descriptive names
+const userConfiguration = getUserConfig();
+const authenticationToken = getAuthToken();
+const databaseConnection = createDbConnection();
+
+// Bad - abbreviations (except common ones)
+const usrCfg = getUserConfig();
+const authTok = getAuthToken();
+const dbConn = createDbConnection();
+
+// Good - common abbreviations
+for (let i = 0; i < items.length; i++) {
+  const id = items[i].id;
+  const config = getConfig(id);
+}
+```
+
+#### Blank Line Rules
+
+```typescript
+// Good - blank lines before and after blocks
+function processUsers(users: User[]): ProcessedUser[] {
+  const processedUsers: ProcessedUser[] = [];
+
+  for (const user of users) {
+    if (user.isActive) {
+      const processedUser = processUser(user);
+      processedUsers.push(processedUser);
+    }
+  }
+
+  return processedUsers;
+}
+
+// Bad - no blank lines
+function processUsers(users: User[]): ProcessedUser[] {
+  const processedUsers: ProcessedUser[] = [];
+  for (const user of users) {
+    if (user.isActive) {
+      const processedUser = processUser(user);
+      processedUsers.push(processedUser);
+    }
+  }
+  return processedUsers;
+}
+```
+
+#### ESM Imports
+
+```typescript
+// Good - ESM imports
+import { createUser, updateUser, deleteUser } from './user-service.js';
+import type { User, UserConfig } from './types.js';
+import { logger } from './logger.js';
+
+// Bad - CommonJS imports
+const { createUser, updateUser, deleteUser } = require('./user-service');
+const { User, UserConfig } = require('./types');
+```
+
+### Type Safety Examples
+
+#### Proper Type Usage
+
+```typescript
+// Good - proper type definitions
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  isActive: boolean;
+}
+
+function getUser(id: number): User | null {
+  return users.find((user) => user.id === id) || null;
+}
+
+// Bad - using any
+function getUser(id: any): any {
+  return users.find((user: any) => user.id === id);
+}
+
+// Good - using unknown for uncertain types
+function processData(data: unknown): string {
+  if (typeof data === 'string') {
+    return data.toUpperCase();
+  }
+
+  if (typeof data === 'number') {
+    return data.toString();
+  }
+
+  return 'unknown';
+}
+```
+
+#### Unused Parameters
+
+```typescript
+// Good - underscore prefix for unused parameters
+function handleClick(_event: MouseEvent): void {
+  console.log('Button clicked');
+}
+
+function processUser(user: User, _options?: ProcessOptions): ProcessedUser {
+  return {
+    id: user.id,
+    name: user.name.toUpperCase(),
+  };
+}
+
+// Bad - unused parameter without underscore
+function handleClick(event: MouseEvent): void {
+  console.log('Button clicked');
+}
+```
+
+#### Readonly Members
+
+```typescript
+// Good - readonly for immutable members
+class UserService {
+  readonly baseUrl: string;
+  readonly apiVersion: string;
+
+  constructor(baseUrl: string, apiVersion: string) {
+    this.baseUrl = baseUrl;
+    this.apiVersion = apiVersion;
+  }
+
+  getUser(id: number): Promise<User> {
+    return fetch(`${this.baseUrl}/api/${this.apiVersion}/users/${id}`);
+  }
+}
+```
+
+### Error Handling Examples
+
+#### Graceful Error Handling with Loglayer
+
+```typescript
+// Good - comprehensive error handling with loglayer
+async function fetchUserData(userId: number): Promise<UserData> {
+  try {
+    const response = await fetch(`/api/users/${userId}`);
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+
+    const userData = await response.json();
+    return userData;
+  } catch (error) {
+    logger.withError(error).error('Failed to fetch user data');
+    logger.withMetadata({ userId }).error('Failed to fetch user data');
+
+    throw new Error(`Failed to fetch user data for user ${userId}`);
+  }
+}
+
+// Good - promise rejection handling with loglayer
+function processUserAsync(userId: number): Promise<void> {
+  return fetchUserData(userId)
+    .then((userData) => {
+      return processUserData(userData);
+    })
+    .catch((error) => {
+      logger.withError(error).error('Failed to process user');
+      logger.withMetadata({ userId }).error('Failed to process user');
+      throw new Error(`User processing failed for user ${userId}`);
+    });
+}
+```
+
+#### Async Error Handling with Loglayer
+
+```typescript
+// Good - async/await with try-catch using loglayer
+async function createUser(userData: CreateUserData): Promise<User> {
+  try {
+    const response = await fetch('/api/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to create user');
+    }
+
+    return await response.json();
+  } catch (error) {
+    logger.withError(error).error('User creation failed');
+    logger.withMetadata({ userData }).error('User creation failed');
+
+    throw new Error('Failed to create user. Please try again.');
+  }
+}
+```
+
+### Code Quality Examples
+
+#### Small, Focused Functions
+
+```typescript
+// Good - small, focused functions
+function validateEmail(email: string): boolean {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+function sanitizeUserInput(input: string): string {
+  return input.trim().replace(/[<>]/g, '');
+}
+
+function createUser(userData: CreateUserData): User {
+  if (!validateEmail(userData.email)) {
+    throw new Error('Invalid email format');
+  }
+
+  const sanitizedName = sanitizeUserInput(userData.name);
+
+  return {
+    id: generateUserId(),
+    name: sanitizedName,
+    email: userData.email.toLowerCase(),
+    createdAt: new Date(),
+  };
+}
+
+// Bad - large, unfocused function
+function processUser(userData: any): any {
+  // 50+ lines of mixed responsibilities
+  // Email validation, input sanitization, user creation, logging, etc.
+}
+```
+
+#### JSDoc Documentation
+
+````typescript
+/**
+ * Creates a new user in the system.
+ *
+ * This function validates the user data, sanitizes inputs, and creates
+ * a new user record. The email must be unique and the name cannot be empty.
+ *
+ * @param userData - The user data to create
+ * @param userData.name - The user's full name (required)
+ * @param userData.email - The user's email address (required, must be unique)
+ * @param userData.role - The user's role (optional, defaults to 'user')
+ *
+ * @returns A promise that resolves to the created user
+ *
+ * @throws {Error} When email is invalid or already exists
+ * @throws {Error} When name is empty or contains invalid characters
+ *
+ * @example
+ * ```typescript
+ * const user = await createUser({
+ *   name: 'John Doe',
+ *   email: 'john@example.com',
+ *   role: 'admin'
+ * });
+ * ```
+ */
+async function createUser(userData: CreateUserData): Promise<User> {
+  // Implementation...
+}
+````
+
+#### Documentation Focus
+
+```typescript
+/**
+ * Processes user authentication tokens.
+ *
+ * This function handles the complex token validation logic required by our
+ * security requirements. It validates the token signature, checks expiration,
+ * and verifies the token hasn't been revoked. The business logic ensures
+ * that users can only access resources they're authorized for, and that
+ * expired tokens are properly handled to maintain security compliance.
+ *
+ * The validation process includes:
+ * - JWT signature verification using our private key
+ * - Expiration time validation against server clock
+ * - Token revocation check against our blacklist
+ * - Role-based permission verification
+ *
+ * @param token - The JWT token to validate
+ * @param requiredPermissions - Array of permissions the user must have
+ *
+ * @returns Promise resolving to user information if token is valid
+ *
+ * @throws {AuthenticationError} When token is invalid or expired
+ * @throws {AuthorizationError} When user lacks required permissions
+ */
+async function validateUserToken(token: string, requiredPermissions: string[]): Promise<UserInfo> {
+  // Implementation...
+}
+```
+
+### Function Examples
+
+#### Single Responsibility
+
+```typescript
+// Good - each function has a single responsibility
+function validateUserInput(userData: CreateUserData): ValidationResult {
+  const errors: string[] = [];
+
+  if (!userData.name?.trim()) {
+    errors.push('Name is required');
+  }
+
+  if (!isValidEmail(userData.email)) {
+    errors.push('Valid email is required');
+  }
+
+  if (userData.age && (userData.age < 0 || userData.age > 120)) {
+    errors.push('Age must be between 0 and 120');
+  }
+
+  return {
+    isValid: errors.length === 0,
+    errors,
+  };
+}
+
+function sanitizeUserData(userData: CreateUserData): SanitizedUserData {
+  return {
+    name: userData.name.trim(),
+    email: userData.email.toLowerCase().trim(),
+    age: userData.age || null,
+  };
+}
+
+function createUser(userData: CreateUserData): User {
+  const validation = validateUserInput(userData);
+
+  if (!validation.isValid) {
+    throw new Error(`Validation failed: ${validation.errors.join(', ')}`);
+  }
+
+  const sanitizedData = sanitizeUserData(userData);
+
+  return {
+    id: generateUserId(),
+    ...sanitizedData,
+    createdAt: new Date(),
+  };
+}
+```
+
+#### Error Handling with Loglayer
+
+```typescript
+// Good - comprehensive error handling with loglayer
+async function processUserRegistration(userData: CreateUserData): Promise<User> {
+  try {
+    logger.withMetadata({ email: userData.email }).info('Starting user registration');
+
+    // Validate input
+    const validation = validateUserInput(userData);
+
+    if (!validation.isValid) {
+      logger
+        .withMetadata({
+          email: userData.email,
+          errors: validation.errors,
+        })
+        .warn('User registration validation failed');
+
+      throw new Error(`Validation failed: ${validation.errors.join(', ')}`);
+    }
+
+    // Check if user already exists
+    const existingUser = await findUserByEmail(userData.email);
+
+    if (existingUser) {
+      logger.withMetadata({ email: userData.email }).warn('User registration attempted with existing email');
+      throw new Error('User with this email already exists');
+    }
+
+    // Create user
+    const user = await createUser(userData);
+
+    // Send welcome email
+    await sendWelcomeEmail(user.email);
+
+    logger
+      .withMetadata({
+        userId: user.id,
+        email: user.email,
+      })
+      .info('User registration completed successfully');
+
+    return user;
+  } catch (error) {
+    logger.withError(error).error('User registration failed');
+    logger.withMetadata({ email: userData.email }).error('User registration failed');
+
+    throw error;
+  }
+}
+```
+
+## Examples
+
+### Complete Function Example
+
+```typescript
+/**
+ * Processes user authentication and returns user session information.
+ *
+ * This function handles the complete authentication flow including token
+ * validation, user lookup, and session creation. It implements our
+ * security requirements for multi-factor authentication and session
+ * management.
+ *
+ * @param credentials - User login credentials
+ * @param credentials.email - User's email address
+ * @param credentials.password - User's password
+ * @param credentials.totpCode - Two-factor authentication code (optional)
+ *
+ * @returns Promise resolving to user session information
+ *
+ * @throws {AuthenticationError} When credentials are invalid
+ * @throws {MFARequiredError} When MFA is required but not provided
+ * @throws {AccountLockedError} When account is locked due to failed attempts
+ */
+async function authenticateUser(credentials: LoginCredentials): Promise<UserSession> {
+  try {
+    logger.withMetadata({ email: credentials.email }).info('User authentication started');
+
+    // Validate input
+    if (!credentials.email || !credentials.password) {
+      throw new Error('Email and password are required');
+    }
+
+    // Find user by email
+    const user = await findUserByEmail(credentials.email);
+
+    if (!user) {
+      logger.withMetadata({ email: credentials.email }).warn('Authentication failed - user not found');
+      throw new Error('Invalid credentials');
+    }
+
+    // Check if account is locked
+    if (user.isLocked) {
+      logger.withMetadata({ userId: user.id }).warn('Authentication failed - account locked');
+      throw new Error('Account is locked. Please contact support.');
+    }
+
+    // Verify password
+    const isPasswordValid = await verifyPassword(credentials.password, user.passwordHash);
+
+    if (!isPasswordValid) {
+      await recordFailedLogin(user.id);
+      logger.withMetadata({ userId: user.id }).warn('Authentication failed - invalid password');
+      throw new Error('Invalid credentials');
+    }
+
+    // Check MFA requirement
+    if (user.mfaEnabled && !credentials.totpCode) {
+      logger.withMetadata({ userId: user.id }).info('MFA required for authentication');
+      throw new Error('Two-factor authentication code required');
+    }
+
+    // Verify MFA if provided
+    if (user.mfaEnabled && credentials.totpCode) {
+      const isMFAValid = await verifyTOTP(credentials.totpCode, user.mfaSecret);
+
+      if (!isMFAValid) {
+        logger.withMetadata({ userId: user.id }).warn('Authentication failed - invalid MFA code');
+        throw new Error('Invalid two-factor authentication code');
+      }
+    }
+
+    // Create session
+    const session = await createUserSession(user.id);
+
+    // Reset failed login attempts
+    await resetFailedLogins(user.id);
+
+    logger
+      .withMetadata({
+        userId: user.id,
+        sessionId: session.id,
+      })
+      .info('User authentication completed successfully');
+
+    return session;
+  } catch (error) {
+    logger.withError(error).error('User authentication failed');
+    logger.withMetadata({ email: credentials.email }).error('User authentication failed');
+
+    throw error;
+  }
+}
+```
+
+### Class Example
+
+```typescript
+/**
+ * Manages user authentication and session handling.
+ *
+ * This class provides a centralized interface for all authentication-related
+ * operations including login, logout, session management, and security
+ * features like rate limiting and account locking.
+ */
+class AuthenticationService {
+  readonly baseUrl: string;
+  readonly sessionTimeout: number;
+
+  constructor(baseUrl: string, sessionTimeout: number = 3600) {
+    this.baseUrl = baseUrl;
+    this.sessionTimeout = sessionTimeout;
+  }
+
+  /**
+   * Authenticates a user and creates a new session.
+   *
+   * @param credentials - User login credentials
+   * @returns Promise resolving to user session
+   */
+  async login(credentials: LoginCredentials): Promise<UserSession> {
+    return authenticateUser(credentials);
+  }
+
+  /**
+   * Logs out a user and invalidates their session.
+   *
+   * @param sessionId - The session ID to invalidate
+   */
+  async logout(sessionId: string): Promise<void> {
+    try {
+      await invalidateSession(sessionId);
+      logger.withMetadata({ sessionId }).info('User logged out successfully');
+    } catch (error) {
+      logger.withError(error).error('Logout failed');
+      logger.withMetadata({ sessionId }).error('Logout failed');
+      throw new Error('Failed to logout user');
+    }
+  }
+
+  /**
+   * Validates a session and returns user information.
+   *
+   * @param sessionId - The session ID to validate
+   * @returns Promise resolving to user information if session is valid
+   */
+  async validateSession(sessionId: string): Promise<UserInfo | null> {
+    try {
+      const session = await getSession(sessionId);
+
+      if (!session || session.isExpired) {
+        return null;
+      }
+
+      return await getUserById(session.userId);
+    } catch (error) {
+      logger.withError(error).error('Session validation failed');
+      logger.withMetadata({ sessionId }).error('Session validation failed');
+      return null;
+    }
+  }
+}
+```

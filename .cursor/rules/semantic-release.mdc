@@ -1,0 +1,22 @@
+---
+description: 'Semantic release standards and practices'
+alwaysApply: true
+---
+
+# Semantic Release
+
+This document defines standards and practices when using semantic-release.
+
+## Core Requirements
+
+### Version Management
+
+- **Automatic Version Updates**: The project version is automatically updated by semantic-release using conventional commits
+- **No Manual Version Changes**: Never manually update version numbers in package.json
+- **Conventional Commits**: All commits must follow conventional commit format for proper versioning
+
+### Changelog Management
+
+- **Automatic Changelog**: The CHANGELOG.md is automatically updated by semantic-release using conventional commits
+- **No Manual Changelog Updates**: Never manually edit CHANGELOG.md
+- **Conventional Commits Required**: All commits must follow conventional commit format for proper changelog generation

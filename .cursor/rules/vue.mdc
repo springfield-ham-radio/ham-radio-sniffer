@@ -1,0 +1,18 @@
+---
+description: "Standards and practices for VueJS development"
+globs: *.vue
+alwaysApply: false
+---
+
+# VueJS Rules
+
+This document defines the VueJS development standards and practices.
+
+## Core Requirements
+
+### Vue File Structure
+
+- **Template First**: Put the template section first, followed by the script section
+- **Composition API**: Use Composition API for all Vue components
+- **TypeScript**: Use TypeScript for all script sections
+- **Modern Syntax**: Use `defineProps`, `defineEmits`, and `defineModel` for component communication
