@@ -45,12 +45,7 @@
     "unicorn/prefer-query-selector": "error",
     "unicorn/no-array-callback-reference": "error"
   },
-  "ignorePatterns": [
-    "dist/",
-    "node_modules/",
-    "build/",
-    "coverage/"
-  ],
+  "ignorePatterns": ["dist/", "node_modules/", "build/", "coverage/", "test/"],
   "env": {
     "browser": true,
     "node": true,
@@ -67,4 +62,3 @@
     }
   }
 }
-
