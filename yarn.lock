@@ -12,37 +12,37 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@loglayer/context-manager@npm:1.1.0":
-  version: 1.1.0
-  resolution: "@loglayer/context-manager@npm:1.1.0"
+"@loglayer/context-manager@npm:1.1.1":
+  version: 1.1.1
+  resolution: "@loglayer/context-manager@npm:1.1.1"
   dependencies:
-    "@loglayer/shared": 2.3.0
-  checksum: c233de2fc8f2ac0cc64635bd3565452254af64e8747822437340f559ed46d7aee6b58e3a3e2b8372ff5d20ab0863222d14865481cad7c7460e80581895a78373
+    "@loglayer/shared": 2.3.1
+  checksum: 7fcd8106df6b37dbde613e8bc7b5df6feaef92baf9827be8e94bcd2620da00b434e1dbb4ef7181ff1509ecf60cb42655c857967dd2d41029efa86c7872ea05f6
   languageName: node
   linkType: hard
 
-"@loglayer/plugin@npm:2.1.0":
-  version: 2.1.0
-  resolution: "@loglayer/plugin@npm:2.1.0"
+"@loglayer/plugin@npm:2.1.1":
+  version: 2.1.1
+  resolution: "@loglayer/plugin@npm:2.1.1"
   dependencies:
-    "@loglayer/shared": 2.3.0
-  checksum: e359551418c77c7ade220898adc5ce6747650257280d72f7ddfef192dca2b7dd923a388fc39efb2b7fb348ce181b21b9607cc0a5f9ab71c3ead0740ffec7f0c1
+    "@loglayer/shared": 2.3.1
+  checksum: 20824bd2d6e20488f6ad39c4560f7fd1635a0d87a179a666f98f0ba1fbcedb6f78525c4b23a4f520e7a253bc2df7102f1519461efbf45d45ef3a564a282b6bdb
   languageName: node
   linkType: hard
 
-"@loglayer/shared@npm:2.3.0":
-  version: 2.3.0
-  resolution: "@loglayer/shared@npm:2.3.0"
-  checksum: 684140f3fadb69d5f0b1a6c477ece485c3709beb2affba749d18539497e2245c62acf5ca55ca55f835387995c23a932db4812513d47fdb5ac81f81a4f39d6f07
+"@loglayer/shared@npm:2.3.1":
+  version: 2.3.1
+  resolution: "@loglayer/shared@npm:2.3.1"
+  checksum: ae81a8593372b4e7f4fc59c9c2fedbb450941ad665db25b4fea0876140c91ca6c85641e24da3fd1ed4ee961cb7e7046ee93b760a38d225b3e6c745df9cdb0005
   languageName: node
   linkType: hard
 
-"@loglayer/transport@npm:2.2.0":
-  version: 2.2.0
-  resolution: "@loglayer/transport@npm:2.2.0"
+"@loglayer/transport@npm:2.2.1":
+  version: 2.2.1
+  resolution: "@loglayer/transport@npm:2.2.1"
   dependencies:
-    "@loglayer/shared": 2.3.0
-  checksum: 498bd64400da702d458f201a558339dcd77f26ad027850d6620e84fa56c7f920ec7fed9b480803df7da3272506506b1012a03f962cee65c8c331fcf791d883c3
+    "@loglayer/shared": 2.3.1
+  checksum: 9bd288ad510e9fd80fc7b8d358f6f19ae97668393452bce8d4c3d7f4218e6f52bc0e081d242d37404170972c0ce31323464dd59e8e7594b77c69954ba984714c
   languageName: node
   linkType: hard
 
@@ -63,6 +63,62 @@ __metadata:
     mkdirp: ^1.0.4
     rimraf: ^3.0.2
   checksum: 52dc02259d98da517fae4cb3a0a3850227bdae4939dda1980b788a7670636ca2b4a01b58df03dd5f65c1e3cb70c50fa8ce5762b582b3f499ec30ee5ce1fd9380
+  languageName: node
+  linkType: hard
+
+"@oxlint/darwin-arm64@npm:1.15.0":
+  version: 1.15.0
+  resolution: "@oxlint/darwin-arm64@npm:1.15.0"
+  conditions: os=darwin & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@oxlint/darwin-x64@npm:1.15.0":
+  version: 1.15.0
+  resolution: "@oxlint/darwin-x64@npm:1.15.0"
+  conditions: os=darwin & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@oxlint/linux-arm64-gnu@npm:1.15.0":
+  version: 1.15.0
+  resolution: "@oxlint/linux-arm64-gnu@npm:1.15.0"
+  conditions: os=linux & cpu=arm64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@oxlint/linux-arm64-musl@npm:1.15.0":
+  version: 1.15.0
+  resolution: "@oxlint/linux-arm64-musl@npm:1.15.0"
+  conditions: os=linux & cpu=arm64 & libc=musl
+  languageName: node
+  linkType: hard
+
+"@oxlint/linux-x64-gnu@npm:1.15.0":
+  version: 1.15.0
+  resolution: "@oxlint/linux-x64-gnu@npm:1.15.0"
+  conditions: os=linux & cpu=x64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@oxlint/linux-x64-musl@npm:1.15.0":
+  version: 1.15.0
+  resolution: "@oxlint/linux-x64-musl@npm:1.15.0"
+  conditions: os=linux & cpu=x64 & libc=musl
+  languageName: node
+  linkType: hard
+
+"@oxlint/win32-arm64@npm:1.15.0":
+  version: 1.15.0
+  resolution: "@oxlint/win32-arm64@npm:1.15.0"
+  conditions: os=win32 & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@oxlint/win32-x64@npm:1.15.0":
+  version: 1.15.0
+  resolution: "@oxlint/win32-x64@npm:1.15.0"
+  conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
@@ -97,7 +153,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@serialport/parser-byte-length@npm:13.0.0":
+"@serialport/parser-byte-length@npm:13.0.0, @serialport/parser-byte-length@npm:^13.0.0":
   version: 13.0.0
   resolution: "@serialport/parser-byte-length@npm:13.0.0"
   checksum: 8005c6f93e8c588bdc4b6eac7f9c0e92e48b7aea1c45438041fb65749c263fa8a903f5ec879c7df594ccd83a1d838946c8276235016d9f5ffcd3a88432db4bb6
@@ -195,12 +251,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@springfield/ham-radio-api@npm:^12.0.1":
-  version: 12.0.1
-  resolution: "@springfield/ham-radio-api@npm:12.0.1"
+"@springfield/ham-radio-api@npm:^16.1.3":
+  version: 16.1.3
+  resolution: "@springfield/ham-radio-api@npm:16.1.3"
   dependencies:
+    loglayer: ^6.6.0
     ts-brand: ^0.2.0
-  checksum: d6540040ff64ed1003d9cc6289e2ff22816482cd65ecafc7262898a60bede4da7aa73e8719ed5e14540bd17913d6cd897b63b3c05722acfb8576f5e516130cba
+  checksum: 11040c512270becce585c3dbd3d50ea43d05768ee89339652488a75d7bab3255348bebf25f69146b77abf5c4156dc7fdff57c0878a353076c3151417eb2d472a
+  languageName: node
+  linkType: hard
+
+"@springfield/ham-radio-driver@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "@springfield/ham-radio-driver@npm:1.3.0"
+  dependencies:
+    "@serialport/parser-byte-length": ^13.0.0
+    "@springfield/ham-radio-api": ^16.1.3
+    "@springfield/ham-radio-utils": ^3.0.0
+    loglayer: ^6.6.0
+    serialport: ^13.0.0
+  checksum: b6bfe13209ab8be6e397e43ebf1a8cd1a920fc5f108555094618dda789b506f0196aef2cda3f4ea27cd9b96e9d8b9a8cbc78e7bbbc1ec8b2d9f8ad359ff84981
   languageName: node
   linkType: hard
 
@@ -208,22 +278,27 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@springfield/ham-radio-sniffer@workspace:."
   dependencies:
-    "@springfield/ham-radio-utils": ^1.3.0
-    "@types/node": ^22.15.29
+    "@springfield/ham-radio-driver": ^1.3.0
+    "@springfield/ham-radio-utils": ^3.0.0
+    "@types/node": ^24.3.1
+    loglayer: ^6.6.0
+    oxlint: ^1.15.0
     serialport: ^13.0.0
-    typescript: 5.8.3
+    typescript: 5.9.2
   languageName: unknown
   linkType: soft
 
-"@springfield/ham-radio-utils@npm:^1.3.0":
-  version: 1.3.0
-  resolution: "@springfield/ham-radio-utils@npm:1.3.0"
+"@springfield/ham-radio-utils@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@springfield/ham-radio-utils@npm:3.0.0"
   dependencies:
-    "@springfield/ham-radio-api": ^12.0.1
+    "@springfield/ham-radio-api": ^16.1.3
+    ajv: ^8.17.1
+    ajv-formats: ^3.0.1
     fishery: ^2.3.1
-    loglayer: ^6.4.2
+    loglayer: ^6.6.0
     sprintf-js: ^1.1.3
-  checksum: cc3c85f27bd6d64ff13db55b6fbf29aa7d5dbab4a93e98c75416c183771353e4327a15e8be1ae5bb1da80ccc136ece5570b3e1c52940e9b37fa6a3fdbed20d64
+  checksum: e93309ad9d24a67794d75496e8116893bfff7ec02a598f3541f2ffa66363280e0df21d4f9562541547e7f868573a103a4d8dba3feefa9b7857d39603a0342173
   languageName: node
   linkType: hard
 
@@ -234,12 +309,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^22.15.29":
-  version: 22.15.29
-  resolution: "@types/node@npm:22.15.29"
+"@types/node@npm:^24.3.1":
+  version: 24.3.1
+  resolution: "@types/node@npm:24.3.1"
   dependencies:
-    undici-types: ~6.21.0
-  checksum: 201aabe3614d68fdf84f3255e2380381180de26ecdfd091f8809bf46fd2a41e73b2df4d94780c2054597f3c203d1c9d378359c21c551fb4eef8b12406698d6c9
+    undici-types: ~7.10.0
+  checksum: 6ba670d2c3ba88038e6f312641fe934479f961bd10610f007e7c26ba9c208eaddc829a1e6533c7a168982f84047c3c744c0488549963bd64f136df3551716746
   languageName: node
   linkType: hard
 
@@ -277,6 +352,32 @@ __metadata:
     clean-stack: ^2.0.0
     indent-string: ^4.0.0
   checksum: 1101a33f21baa27a2fa8e04b698271e64616b886795fd43c31068c07533c7b3facfcaf4e9e0cab3624bd88f729a592f1c901a1a229c9e490eafce411a8644b79
+  languageName: node
+  linkType: hard
+
+"ajv-formats@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "ajv-formats@npm:3.0.1"
+  dependencies:
+    ajv: ^8.0.0
+  peerDependencies:
+    ajv: ^8.0.0
+  peerDependenciesMeta:
+    ajv:
+      optional: true
+  checksum: f4e1fe232d67fcafc02eafe373a7a9962351e0439dd0736647ca75c93c3da23b430b6502c255ab4315410ae330d4f3013ac9fe226c40b2524ca93a58e786d086
+  languageName: node
+  linkType: hard
+
+"ajv@npm:^8.0.0, ajv@npm:^8.17.1":
+  version: 8.17.1
+  resolution: "ajv@npm:8.17.1"
+  dependencies:
+    fast-deep-equal: ^3.1.3
+    fast-uri: ^3.0.1
+    json-schema-traverse: ^1.0.0
+    require-from-string: ^2.0.2
+  checksum: 1797bf242cfffbaf3b870d13565bd1716b73f214bb7ada9a497063aada210200da36e3ed40237285f3255acc4feeae91b1fb183625331bad27da95973f7253d9
   languageName: node
   linkType: hard
 
@@ -458,6 +559,20 @@ __metadata:
   version: 2.0.3
   resolution: "err-code@npm:2.0.3"
   checksum: 8b7b1be20d2de12d2255c0bc2ca638b7af5171142693299416e6a9339bd7d88fc8d7707d913d78e0993176005405a236b066b45666b27b797252c771156ace54
+  languageName: node
+  linkType: hard
+
+"fast-deep-equal@npm:^3.1.3":
+  version: 3.1.3
+  resolution: "fast-deep-equal@npm:3.1.3"
+  checksum: e21a9d8d84f53493b6aa15efc9cfd53dd5b714a1f23f67fb5dc8f574af80df889b3bce25dc081887c6d25457cce704e636395333abad896ccdec03abaf1f3f9d
+  languageName: node
+  linkType: hard
+
+"fast-uri@npm:^3.0.1":
+  version: 3.1.0
+  resolution: "fast-uri@npm:3.1.0"
+  checksum: daab0efd3548cc53d0db38ecc764d125773f8bd70c34552ff21abdc6530f26fa4cb1771f944222ca5e61a0a1a85d01a104848ff88c61736de445d97bd616ea7e
   languageName: node
   linkType: hard
 
@@ -655,6 +770,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"json-schema-traverse@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "json-schema-traverse@npm:1.0.0"
+  checksum: 02f2f466cdb0362558b2f1fd5e15cce82ef55d60cd7f8fa828cf35ba74330f8d767fcae5c5c2adb7851fa811766c694b9405810879bc4e1ddd78a7c0e03658ad
+  languageName: node
+  linkType: hard
+
 "lodash.mergewith@npm:^4.6.2":
   version: 4.6.2
   resolution: "lodash.mergewith@npm:4.6.2"
@@ -662,15 +784,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"loglayer@npm:^6.4.2":
-  version: 6.4.2
-  resolution: "loglayer@npm:6.4.2"
+"loglayer@npm:^6.6.0":
+  version: 6.6.0
+  resolution: "loglayer@npm:6.6.0"
   dependencies:
-    "@loglayer/context-manager": 1.1.0
-    "@loglayer/plugin": 2.1.0
-    "@loglayer/shared": 2.3.0
-    "@loglayer/transport": 2.2.0
-  checksum: 1f6d09d127041431f4590dc9c9d70a1e3a94d80014c0b06762676f61d0f5eafe447f81550e85ad64d785510ee75b045e68caae2b49f66dae1e36fddf711fe1b4
+    "@loglayer/context-manager": 1.1.1
+    "@loglayer/plugin": 2.1.1
+    "@loglayer/shared": 2.3.1
+    "@loglayer/transport": 2.2.1
+  checksum: ecf2e9ccd56aa9839cbff8f33337f3efe867a47ebb8f315d061457753d65b0024acb8725c91dd7ccbb472531803581851f87898c16f83d4a50544123c4029831
   languageName: node
   linkType: hard
 
@@ -911,6 +1033,47 @@ __metadata:
   languageName: node
   linkType: hard
 
+"oxlint@npm:^1.15.0":
+  version: 1.15.0
+  resolution: "oxlint@npm:1.15.0"
+  dependencies:
+    "@oxlint/darwin-arm64": 1.15.0
+    "@oxlint/darwin-x64": 1.15.0
+    "@oxlint/linux-arm64-gnu": 1.15.0
+    "@oxlint/linux-arm64-musl": 1.15.0
+    "@oxlint/linux-x64-gnu": 1.15.0
+    "@oxlint/linux-x64-musl": 1.15.0
+    "@oxlint/win32-arm64": 1.15.0
+    "@oxlint/win32-x64": 1.15.0
+  peerDependencies:
+    oxlint-tsgolint: ">=0.2.0"
+  dependenciesMeta:
+    "@oxlint/darwin-arm64":
+      optional: true
+    "@oxlint/darwin-x64":
+      optional: true
+    "@oxlint/linux-arm64-gnu":
+      optional: true
+    "@oxlint/linux-arm64-musl":
+      optional: true
+    "@oxlint/linux-x64-gnu":
+      optional: true
+    "@oxlint/linux-x64-musl":
+      optional: true
+    "@oxlint/win32-arm64":
+      optional: true
+    "@oxlint/win32-x64":
+      optional: true
+  peerDependenciesMeta:
+    oxlint-tsgolint:
+      optional: true
+  bin:
+    oxc_language_server: bin/oxc_language_server
+    oxlint: bin/oxlint
+  checksum: b9c8ab017c2f42b11b81cf7ed8e8150155fd58f1d6aa03265558fa544021324ea48084e3e1991569f26849599b8df06aa10325e95afb002cfdede76da0265821
+  languageName: node
+  linkType: hard
+
 "p-map@npm:^4.0.0":
   version: 4.0.0
   resolution: "p-map@npm:4.0.0"
@@ -952,6 +1115,13 @@ __metadata:
     string_decoder: ^1.1.1
     util-deprecate: ^1.0.1
   checksum: bdcbe6c22e846b6af075e32cf8f4751c2576238c5043169a1c221c92ee2878458a816a4ea33f4c67623c0b6827c8a400409bfb3cf0bf3381392d0b1dfb52ac8d
+  languageName: node
+  linkType: hard
+
+"require-from-string@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "require-from-string@npm:2.0.2"
+  checksum: a03ef6895445f33a4015300c426699bc66b2b044ba7b670aa238610381b56d3f07c686251740d575e22f4c87531ba662d06937508f0f3c0f1ddc04db3130560b
   languageName: node
   linkType: hard
 
@@ -1128,30 +1298,30 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:5.8.3":
-  version: 5.8.3
-  resolution: "typescript@npm:5.8.3"
+"typescript@npm:5.9.2":
+  version: 5.9.2
+  resolution: "typescript@npm:5.9.2"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: cb1d081c889a288b962d3c8ae18d337ad6ee88a8e81ae0103fa1fecbe923737f3ba1dbdb3e6d8b776c72bc73bfa6d8d850c0306eed1a51377d2fccdfd75d92c4
+  checksum: f619cf6773cfe31409279711afd68cdf0859780006c50bc2a7a0c3227f85dea89a3b97248846326f3a17dad72ea90ec27cf61a8387772c680b2252fd02d8497b
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@5.8.3#~builtin<compat/typescript>":
-  version: 5.8.3
-  resolution: "typescript@patch:typescript@npm%3A5.8.3#~builtin<compat/typescript>::version=5.8.3&hash=1f5320"
+"typescript@patch:typescript@5.9.2#~builtin<compat/typescript>":
+  version: 5.9.2
+  resolution: "typescript@patch:typescript@npm%3A5.9.2#~builtin<compat/typescript>::version=5.9.2&hash=1f5320"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 1b503525a88ff0ff5952e95870971c4fb2118c17364d60302c21935dedcd6c37e6a0a692f350892bafcef6f4a16d09073fe461158547978d2f16fbe4cb18581c
+  checksum: e42a701947325500008334622321a6ad073f842f5e7d5e7b588a6346b31fdf51d56082b9ce5cef24312ecd3e48d6c0d4d44da7555f65e2feec18cf62ec540385
   languageName: node
   linkType: hard
 
-"undici-types@npm:~6.21.0":
-  version: 6.21.0
-  resolution: "undici-types@npm:6.21.0"
-  checksum: 46331c7d6016bf85b3e8f20c159d62f5ae471aba1eb3dc52fff35a0259d58dcc7d592d4cc4f00c5f9243fa738a11cfa48bd20203040d4a9e6bc25e807fab7ab3
+"undici-types@npm:~7.10.0":
+  version: 7.10.0
+  resolution: "undici-types@npm:7.10.0"
+  checksum: 6917fcd8c80963919fe918952f9243a6749af0e3f759a39f8d2c2486144a66c86ae4125aebbce700b636cb1dcd45e85eb8c49c60d60738a97b63f0e89ef9b053
   languageName: node
   linkType: hard
 
