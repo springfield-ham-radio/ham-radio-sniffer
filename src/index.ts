@@ -164,9 +164,9 @@ try {
     console.log('Usage: node index.js <computer-port> <radio-port> [baud-rate] [--log-file <filename>]');
     console.log('');
     console.log('Examples:');
-    console.log('  node index.js /dev/ttyUSB0 /dev/ttyUSB1');
-    console.log('  node index.js /dev/ttyUSB0 /dev/ttyUSB1 9600');
-    console.log('  node index.js /dev/ttyUSB0 /dev/ttyUSB1 9600 --log-file my-sniffer.json');
+    console.log('  node index.js /dev/ttyS0 /dev/ttyUSB0');
+    console.log('  node index.js /dev/ttyS0 /dev/ttyUSB0 9600');
+    console.log('  node index.js /dev/ttyS0 /dev/ttyUSB0 9600 --log-file my-sniffer.json');
     process.exit(1);
   }
 
