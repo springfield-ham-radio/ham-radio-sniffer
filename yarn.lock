@@ -295,16 +295,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@springfield/ham-radio-driver@npm:^1.3.1":
-  version: 1.3.1
-  resolution: "@springfield/ham-radio-driver@npm:1.3.1"
+"@springfield/ham-radio-driver@npm:^1.4.0":
+  version: 1.4.0
+  resolution: "@springfield/ham-radio-driver@npm:1.4.0"
   dependencies:
     "@serialport/parser-byte-length": ^13.0.0
     "@springfield/ham-radio-api": ^16.1.3
     "@springfield/ham-radio-utils": ^3.0.0
     loglayer: ^6.6.0
     serialport: ^13.0.0
-  checksum: 166a2ef50cf7eeb39a2ed5f59b54f98d2bb48895cc2fc648566c8551370652d3e78fb35c71e7b46ab1b0a45998f85b1050f4fa53e31cfcdf97a09b35d4b1f18a
+  checksum: 99d37268029551a926f4270fec534d5e94868eea010394b4961184af7676e7846bfcba58d2c0f9f6326c4dee6856454d5e2219e61436ba3b07e950d7e0c3d2f8
   languageName: node
   linkType: hard
 
@@ -312,7 +312,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@springfield/ham-radio-sniffer@workspace:."
   dependencies:
-    "@springfield/ham-radio-driver": ^1.3.1
+    "@springfield/ham-radio-driver": ^1.4.0
     "@springfield/ham-radio-utils": ^3.0.0
     "@types/node": ^24.3.1
     loglayer: ^6.7.0
