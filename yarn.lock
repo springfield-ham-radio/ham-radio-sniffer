@@ -12,30 +12,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@loglayer/context-manager@npm:1.1.1":
-  version: 1.1.1
-  resolution: "@loglayer/context-manager@npm:1.1.1"
-  dependencies:
-    "@loglayer/shared": 2.3.1
-  checksum: 7fcd8106df6b37dbde613e8bc7b5df6feaef92baf9827be8e94bcd2620da00b434e1dbb4ef7181ff1509ecf60cb42655c857967dd2d41029efa86c7872ea05f6
-  languageName: node
-  linkType: hard
-
 "@loglayer/context-manager@npm:1.1.2":
   version: 1.1.2
   resolution: "@loglayer/context-manager@npm:1.1.2"
   dependencies:
     "@loglayer/shared": 2.4.0
   checksum: 8d1a1a1e1759d28c4003ea5010a864a652ed76cfc223bde934cfe23619c72dcfa86bfda85832089abd332d78ae71634a335daf69ed6609ad7637aa25c12c1fa7
-  languageName: node
-  linkType: hard
-
-"@loglayer/plugin@npm:2.1.1":
-  version: 2.1.1
-  resolution: "@loglayer/plugin@npm:2.1.1"
-  dependencies:
-    "@loglayer/shared": 2.3.1
-  checksum: 20824bd2d6e20488f6ad39c4560f7fd1635a0d87a179a666f98f0ba1fbcedb6f78525c4b23a4f520e7a253bc2df7102f1519461efbf45d45ef3a564a282b6bdb
   languageName: node
   linkType: hard
 
@@ -48,26 +30,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@loglayer/shared@npm:2.3.1":
-  version: 2.3.1
-  resolution: "@loglayer/shared@npm:2.3.1"
-  checksum: ae81a8593372b4e7f4fc59c9c2fedbb450941ad665db25b4fea0876140c91ca6c85641e24da3fd1ed4ee961cb7e7046ee93b760a38d225b3e6c745df9cdb0005
-  languageName: node
-  linkType: hard
-
 "@loglayer/shared@npm:2.4.0":
   version: 2.4.0
   resolution: "@loglayer/shared@npm:2.4.0"
   checksum: e3624b7d9aa86bc684b0158218aa881258bcd0fcf9aa02abc0efb3382e78a090339c4b75d3e386e035c3aa4135f38f33fcbe40f39787b96ceb5c03124366a09a
-  languageName: node
-  linkType: hard
-
-"@loglayer/transport@npm:2.2.1":
-  version: 2.2.1
-  resolution: "@loglayer/transport@npm:2.2.1"
-  dependencies:
-    "@loglayer/shared": 2.3.1
-  checksum: 9bd288ad510e9fd80fc7b8d358f6f19ae97668393452bce8d4c3d7f4218e6f52bc0e081d242d37404170972c0ce31323464dd59e8e7594b77c69954ba984714c
   languageName: node
   linkType: hard
 
@@ -285,26 +251,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@springfield/ham-radio-api@npm:^16.1.3":
-  version: 16.1.3
-  resolution: "@springfield/ham-radio-api@npm:16.1.3"
+"@springfield/ham-radio-api@npm:^16.2.0":
+  version: 16.2.0
+  resolution: "@springfield/ham-radio-api@npm:16.2.0"
   dependencies:
-    loglayer: ^6.6.0
+    loglayer: ^6.7.0
     ts-brand: ^0.2.0
-  checksum: 11040c512270becce585c3dbd3d50ea43d05768ee89339652488a75d7bab3255348bebf25f69146b77abf5c4156dc7fdff57c0878a353076c3151417eb2d472a
+  checksum: 2fa2be001ef1218408f768d3ccee8884273bad23ada8d1995acc09500cf9ca8ca92db8214d738a837b8ca17d1b7a240449c6f91c724193c66d40661a7764d55d
   languageName: node
   linkType: hard
 
-"@springfield/ham-radio-driver@npm:^1.4.0":
-  version: 1.4.0
-  resolution: "@springfield/ham-radio-driver@npm:1.4.0"
+"@springfield/ham-radio-driver@npm:^1.7.0":
+  version: 1.7.0
+  resolution: "@springfield/ham-radio-driver@npm:1.7.0"
   dependencies:
     "@serialport/parser-byte-length": ^13.0.0
-    "@springfield/ham-radio-api": ^16.1.3
-    "@springfield/ham-radio-utils": ^3.0.0
-    loglayer: ^6.6.0
+    "@springfield/ham-radio-api": ^16.2.0
+    "@springfield/ham-radio-utils": ^3.1.0
+    loglayer: ^6.7.0
     serialport: ^13.0.0
-  checksum: 99d37268029551a926f4270fec534d5e94868eea010394b4961184af7676e7846bfcba58d2c0f9f6326c4dee6856454d5e2219e61436ba3b07e950d7e0c3d2f8
+  checksum: a8be07040940e0bcb8a64b237c1054dc2b214980b3a6ec791c5e98c08e585ed1d6e8fbe0346a0e784ce5d7bf02679a549a5fd8a6c1638ca25eb1d4a44f719975
   languageName: node
   linkType: hard
 
@@ -312,9 +278,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@springfield/ham-radio-sniffer@workspace:."
   dependencies:
-    "@springfield/ham-radio-driver": ^1.4.0
-    "@springfield/ham-radio-utils": ^3.0.0
-    "@types/node": ^24.3.1
+    "@springfield/ham-radio-driver": ^1.7.0
+    "@springfield/ham-radio-utils": ^3.1.0
+    "@types/node": ^24.3.3
     loglayer: ^6.7.0
     oxlint: ^1.15.0
     serialport: ^13.0.0
@@ -322,17 +288,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@springfield/ham-radio-utils@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "@springfield/ham-radio-utils@npm:3.0.0"
+"@springfield/ham-radio-utils@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "@springfield/ham-radio-utils@npm:3.1.0"
   dependencies:
-    "@springfield/ham-radio-api": ^16.1.3
+    "@springfield/ham-radio-api": ^16.2.0
     ajv: ^8.17.1
     ajv-formats: ^3.0.1
     fishery: ^2.3.1
-    loglayer: ^6.6.0
+    loglayer: ^6.7.0
     sprintf-js: ^1.1.3
-  checksum: e93309ad9d24a67794d75496e8116893bfff7ec02a598f3541f2ffa66363280e0df21d4f9562541547e7f868573a103a4d8dba3feefa9b7857d39603a0342173
+  checksum: e54b0413aba1485eade9bffbc967449671856a4550b149f9b53d1efe638e15433a4ccb732e463c85b1ede20afd837b5862b709b543d48d3d9db97ed2d1093a0e
   languageName: node
   linkType: hard
 
@@ -343,12 +309,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^24.3.1":
-  version: 24.3.1
-  resolution: "@types/node@npm:24.3.1"
+"@types/node@npm:^24.3.3":
+  version: 24.3.3
+  resolution: "@types/node@npm:24.3.3"
   dependencies:
     undici-types: ~7.10.0
-  checksum: 6ba670d2c3ba88038e6f312641fe934479f961bd10610f007e7c26ba9c208eaddc829a1e6533c7a168982f84047c3c744c0488549963bd64f136df3551716746
+  checksum: b67244aa37ab53690ac6f3565f06ad2e3ca5fae78ef3f60431e1c78e014426106643d3dc31d6f00b62aa8051cd1360178cafb6ce6a49afa5dcecba8339e23462
   languageName: node
   linkType: hard
 
@@ -815,18 +781,6 @@ __metadata:
   version: 4.6.2
   resolution: "lodash.mergewith@npm:4.6.2"
   checksum: a6db2a9339752411f21b956908c404ec1e088e783a65c8b29e30ae5b3b6384f82517662d6f425cc97c2070b546cc2c7daaa8d33f78db7b6e9be06cd834abdeb8
-  languageName: node
-  linkType: hard
-
-"loglayer@npm:^6.6.0":
-  version: 6.6.0
-  resolution: "loglayer@npm:6.6.0"
-  dependencies:
-    "@loglayer/context-manager": 1.1.1
-    "@loglayer/plugin": 2.1.1
-    "@loglayer/shared": 2.3.1
-    "@loglayer/transport": 2.2.1
-  checksum: ecf2e9ccd56aa9839cbff8f33337f3efe867a47ebb8f315d061457753d65b0024acb8725c91dd7ccbb472531803581851f87898c16f83d4a50544123c4029831
   languageName: node
   linkType: hard
 

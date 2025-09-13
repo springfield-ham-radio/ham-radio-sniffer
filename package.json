@@ -17,13 +17,13 @@
     "lint:fix": "oxlint --fix --fix-suggestions"
   },
   "dependencies": {
-    "@springfield/ham-radio-driver": "^1.4.0",
-    "@springfield/ham-radio-utils": "^3.0.0",
+    "@springfield/ham-radio-driver": "^1.7.0",
+    "@springfield/ham-radio-utils": "^3.1.0",
     "loglayer": "^6.7.0",
     "serialport": "^13.0.0"
   },
   "devDependencies": {
-    "@types/node": "^24.3.1",
+    "@types/node": "^24.3.3",
     "oxlint": "^1.15.0",
     "typescript": "5.9.2"
   }
