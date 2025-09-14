@@ -17,8 +17,8 @@
     "lint:fix": "oxlint --fix --fix-suggestions"
   },
   "dependencies": {
-    "@springfield/ham-radio-driver": "^1.7.0",
-    "@springfield/ham-radio-utils": "^3.1.0",
+    "@springfield/ham-radio-driver": "^1.8.0",
+    "@springfield/ham-radio-utils": "^3.2.0",
     "loglayer": "^6.7.0",
     "serialport": "^13.0.0"
   },
