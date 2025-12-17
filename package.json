@@ -4,7 +4,7 @@
   "author": "Bryan Hunt",
   "type": "module",
   "main": "dist/index.js",
-  "packageManager": "yarn@4.9.1",
+  "packageManager": "yarn@4.12.0",
   "types": "dist/index.d.ts",
   "files": [
     "src/",
@@ -17,14 +17,14 @@
     "lint:fix": "oxlint --fix --fix-suggestions"
   },
   "dependencies": {
-    "@springfield/ham-radio-driver": "^1.8.0",
-    "@springfield/ham-radio-utils": "^3.2.0",
-    "loglayer": "^6.7.0",
+    "@springfield/ham-radio-driver": "^1.8.3",
+    "@springfield/ham-radio-utils": "^3.2.4",
+    "loglayer": "^8.2.0",
     "serialport": "^13.0.0"
   },
   "devDependencies": {
-    "@types/node": "^24.3.3",
-    "oxlint": "^1.15.0",
-    "typescript": "5.9.2"
+    "@types/node": "^24.10.4",
+    "oxlint": "^1.33.0",
+    "typescript": "5.9.3"
   }
 }
