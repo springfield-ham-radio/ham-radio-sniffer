@@ -2,29 +2,81 @@
   "name": "@springfield/ham-radio-sniffer",
   "version": "0.1.0",
   "author": "Bryan Hunt",
-  "type": "module",
-  "main": "dist/index.js",
-  "packageManager": "yarn@4.12.0",
-  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "readme": "README.md",
   "files": [
     "src/",
     "dist/"
   ],
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/springfield-ham-radio/ham-radio-sniffer.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsc",
     "commitlint": "commitlint --edit",
+    "format": "oxfmt",
     "lint": "oxlint",
-    "lint:fix": "oxlint --fix --fix-suggestions"
+    "lint:fix": "oxlint --fix --fix-suggestions",
+    "release": "semantic-release",
+    "prepare": "husky"
   },
   "dependencies": {
-    "@springfield/ham-radio-driver": "^1.8.3",
-    "@springfield/ham-radio-utils": "^3.2.4",
-    "loglayer": "^8.2.0",
+    "@serialport/parser-byte-length": "^13.0.0",
+    "@springfield/ham-radio-driver": "^1.8.4",
+    "@springfield/ham-radio-utils": "^3.2.6",
+    "loglayer": "^9.4.0",
     "serialport": "^13.0.0"
   },
   "devDependencies": {
-    "@types/node": "^24.10.4",
-    "oxlint": "^1.33.0",
-    "typescript": "5.9.3"
-  }
+    "@commitlint/cli": "21.2.2",
+    "@commitlint/config-conventional": "21.2.2",
+    "@semantic-release/changelog": "7.0.0",
+    "@semantic-release/git": "11.0.1",
+    "@semantic-release/github": "12.0.9",
+    "@semantic-release/npm": "13.1.5",
+    "@types/node": "26.2.0",
+    "husky": "9.1.7",
+    "oxfmt": "^0.64.0",
+    "oxlint": "1.79.0",
+    "semantic-release": "25.0.9",
+    "typescript": "7.0.2"
+  },
+  "resolutions": {
+    "conventional-changelog-conventionalcommits": "9.3.1"
+  },
+  "release": {
+    "branches": [
+      "main",
+      {
+        "name": "beta",
+        "prerelease": true
+      }
+    ],
+    "plugins": [
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "preset": "conventionalcommits"
+        }
+      ],
+      [
+        "@semantic-release/release-notes-generator",
+        {
+          "preset": "conventionalcommits"
+        }
+      ],
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      "@semantic-release/github",
+      "@semantic-release/git"
+    ]
+  },
+  "packageManager": "yarn@4.18.0"
 }

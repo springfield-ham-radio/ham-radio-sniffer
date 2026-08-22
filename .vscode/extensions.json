@@ -1,9 +1,11 @@
 {
   "recommendations": [
     "editorconfig.editorconfig",
-    "GitLab.gitlab-workflow",
+    "GitHub.vscode-pull-request-github",
+    "Gruntfuggly.todo-tree",
     "redhat.vscode-yaml",
     "streetsidesoftware.code-spell-checker",
+    "TypeScriptTeam.native-preview",
     "VisualStudioExptTeam.vscodeintellicode",
     "wayou.vscode-todo-highlight"
   ],
