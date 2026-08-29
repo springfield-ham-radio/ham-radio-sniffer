@@ -3,40 +3,46 @@
   "version": "0.1.0",
   "author": "Bryan Hunt",
   "license": "MIT",
-  "readme": "README.md",
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "private": true,
   "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "description": "Headless serial sniffer for ham radio clone protocols",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/springfield-ham-radio/ham-radio-sniffer.git"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "nuxt build",
     "commitlint": "commitlint --edit",
+    "dev": "nuxt dev",
     "format": "oxfmt",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix --fix-suggestions",
-    "prepare": "husky"
+    "postinstall": "nuxt prepare",
+    "prepare": "husky",
+    "preview": "nuxt preview",
+    "sniff": "tsx src/cli.ts",
+    "start": "node .output/server/index.mjs",
+    "test": "yarn test:unit",
+    "test:unit": "tsx --test test/unit/**/*.test.ts"
   },
   "dependencies": {
     "@serialport/parser-byte-length": "^13.0.0",
     "@springfield/ham-radio-driver": "^1.8.4",
     "@springfield/ham-radio-utils": "^3.2.6",
     "loglayer": "^9.4.0",
+    "nuxt": "^4.3.0",
     "serialport": "^13.0.0"
   },
   "devDependencies": {
     "@commitlint/cli": "21.2.2",
     "@commitlint/config-conventional": "21.2.2",
+    "@types/chai": "5.2.3",
     "@types/node": "26.2.0",
+    "chai": "6.2.2",
     "husky": "9.1.7",
     "oxfmt": "^0.64.0",
     "oxlint": "1.79.0",
+    "tsx": "4.23.12",
     "typescript": "7.0.2"
   },
   "packageManager": "yarn@4.18.0"

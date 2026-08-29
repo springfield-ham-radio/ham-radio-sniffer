@@ -1,24 +1,3 @@
 {
-  "compilerOptions": {
-    "declaration": true,
-    "declarationMap": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "inlineSources": true,
-    "module": "NodeNext",
-    "moduleResolution": "nodenext",
-    "noEmitOnError": true,
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "sourceMap": true,
-    "strict": true,
-    "target": "ESNext",
-    "types": ["node"]
-  },
-  "include": ["src/**/*"]
+  "extends": "./.nuxt/tsconfig.json"
 }
