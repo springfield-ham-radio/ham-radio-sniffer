@@ -16,8 +16,9 @@ export class FakeSerialPort extends EventEmitter implements BridgedSerialPort {
     return this.parser;
   }
 
-  write(data: Buffer | Uint8Array): boolean {
+  write(data: Buffer | Uint8Array, callback?: (error?: Error | null) => void): boolean {
     this.written.push(Buffer.from(data));
+    callback?.(null);
     return true;
   }
 

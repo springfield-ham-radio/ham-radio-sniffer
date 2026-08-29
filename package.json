@@ -21,7 +21,7 @@
     "prepare": "husky",
     "preview": "nuxt preview",
     "sniff": "tsx src/cli.ts",
-    "start": "node .output/server/index.mjs",
+    "start": "PORT=3010 HOST=127.0.0.1 node .output/server/index.mjs",
     "test": "yarn test:unit",
     "test:unit": "tsx --test test/unit/**/*.test.ts"
   },

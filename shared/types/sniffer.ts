@@ -34,6 +34,14 @@ export interface SnifferStatus {
   logFile?: string;
   startedAt?: string;
   packetCount: number;
+  /** Bytes forwarded computer → radio since start. */
+  bytesComputerToRadio?: number;
+  /** Bytes forwarded radio → computer since start. */
+  bytesRadioToComputer?: number;
+  /** Failed or dropped writes (port closed / write error). */
+  writeErrors?: number;
+  computerPortOpen?: boolean;
+  radioPortOpen?: boolean;
 }
 
 export interface SnifferLogResponse {

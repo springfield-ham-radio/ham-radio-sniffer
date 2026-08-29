@@ -4,14 +4,14 @@ import { SerialLogger } from '@springfield/ham-radio-driver';
 import type { ILogLayer } from 'loglayer';
 import { SerialPort } from 'serialport';
 import { createDefaultLogger } from './logger.ts';
-import type { SnifferDirection, SnifferPacket } from '../shared/types/sniffer.ts';
+import type { SnifferDirection, SnifferPacket, SnifferStatus } from '../shared/types/sniffer.ts';
 
 export interface BridgedSerialPort {
   readonly isOpen: boolean;
   pipe(transform: unknown): { on(event: 'data', listener: (data: Buffer) => void): unknown };
-  write(data: Buffer | Uint8Array): boolean;
+  write(data: Buffer | Uint8Array, callback?: (error?: Error | null) => void): boolean;
   close(callback?: (error?: Error | null) => void): void;
-  on(event: 'error' | 'open', listener: (...args: unknown[]) => void): unknown;
+  on(event: 'error' | 'open' | 'close', listener: (...args: unknown[]) => void): unknown;
 }
 
 export type SerialPortFactory = (options: { path: string; baudRate: number }) => BridgedSerialPort;
@@ -40,6 +40,15 @@ export interface RadioSnifferEvents {
   portError: [error: Error, source: 'computer' | 'radio'];
 }
 
+export type BridgeStats = Pick<
+  SnifferStatus,
+  | 'bytesComputerToRadio'
+  | 'bytesRadioToComputer'
+  | 'writeErrors'
+  | 'computerPortOpen'
+  | 'radioPortOpen'
+>;
+
 function createSerialPort({ path, baudRate }: { path: string; baudRate: number }): BridgedSerialPort {
   return new SerialPort({ path, baudRate });
 }
@@ -67,6 +76,9 @@ export class RadioSniffer extends EventEmitter<RadioSnifferEvents> {
   private pendingDescription: string | undefined;
   private idleTimer: ReturnType<typeof setTimeout> | undefined;
   private running = false;
+  private bytesComputerToRadio = 0;
+  private bytesRadioToComputer = 0;
+  private writeErrors = 0;
 
   constructor(options: RadioSnifferOptions) {
     super();
@@ -86,12 +98,25 @@ export class RadioSniffer extends EventEmitter<RadioSnifferEvents> {
     return this.trafficLogger.getLogData();
   }
 
+  public getStats(): BridgeStats {
+    return {
+      bytesComputerToRadio: this.bytesComputerToRadio,
+      bytesRadioToComputer: this.bytesRadioToComputer,
+      writeErrors: this.writeErrors,
+      computerPortOpen: this.computerPort?.isOpen ?? false,
+      radioPortOpen: this.radioPort?.isOpen ?? false,
+    };
+  }
+
   public start(): void {
     if (this.running) {
       return;
     }
 
     const baudRate = this.options.baudRate ?? 9600;
+    this.bytesComputerToRadio = 0;
+    this.bytesRadioToComputer = 0;
+    this.writeErrors = 0;
 
     this.logger
       .withMetadata({
@@ -113,7 +138,7 @@ export class RadioSniffer extends EventEmitter<RadioSnifferEvents> {
       return;
     }
 
-    this.logger.info('Stopping sniffer...');
+    this.logger.withMetadata(this.getStats()).info('Stopping sniffer');
     this.flushPendingPacket();
     this.clearIdleTimer();
     this.trafficLogger.close();
@@ -125,7 +150,7 @@ export class RadioSniffer extends EventEmitter<RadioSnifferEvents> {
   }
 
   private openPort(path: string, baudRate: number, source: 'computer' | 'radio'): BridgedSerialPort {
-    this.logger.withMetadata({ port: path, baudRate }).debug(`Opening ${source} port`);
+    this.logger.withMetadata({ port: path, baudRate }).info(`Opening ${source} port`);
 
     const port = this.serialPortFactory({ path, baudRate });
 
@@ -136,7 +161,11 @@ export class RadioSniffer extends EventEmitter<RadioSnifferEvents> {
     });
 
     port.on('open', () => {
-      this.logger.info(`${source === 'computer' ? 'Computer' : 'Radio'} port opened successfully`);
+      this.logger.withMetadata({ port: path }).info(`${source} port opened`);
+    });
+
+    port.on('close', () => {
+      this.logger.withMetadata({ port: path, ...this.getStats() }).warn(`${source} port closed`);
     });
 
     return port;
@@ -151,17 +180,50 @@ export class RadioSniffer extends EventEmitter<RadioSnifferEvents> {
     const radioParser = this.radioPort.pipe(new ByteLengthParser({ length: 1 }));
 
     computerParser.on('data', (data: Buffer) => {
-      this.radioPort?.write(data);
+      this.forward(this.radioPort, data, 'computer', 'radio');
       const bytes = Uint8Array.from(data);
       this.trafficLogger.logSend(bytes, 'Computer to Radio');
       this.bufferPacket(bytes, 'COMPUTER->RADIO', 'Computer to Radio');
     });
 
     radioParser.on('data', (data: Buffer) => {
-      this.computerPort?.write(data);
+      this.forward(this.computerPort, data, 'radio', 'computer');
       const bytes = Uint8Array.from(data);
       this.trafficLogger.logReceive(bytes, 'Radio to Computer');
       this.bufferPacket(bytes, 'RADIO->COMPUTER', 'Radio to Computer');
+    });
+  }
+
+  private forward(
+    destination: BridgedSerialPort | undefined,
+    data: Buffer,
+    from: 'computer' | 'radio',
+    to: 'computer' | 'radio',
+  ): void {
+    const label = `${from}->${to}`;
+
+    if (!destination?.isOpen) {
+      this.writeErrors += 1;
+      this.logger
+        .withMetadata({ bytes: data.length, from, to, open: destination?.isOpen ?? false })
+        .warn(`Dropping bridge write; ${to} port not open`);
+      return;
+    }
+
+    if (from === 'computer') {
+      this.bytesComputerToRadio += data.length;
+    } else {
+      this.bytesRadioToComputer += data.length;
+    }
+
+    destination.write(data, (error) => {
+      if (!error) {
+        return;
+      }
+
+      this.writeErrors += 1;
+      this.logger.withError(error).withMetadata({ bytes: data.length, label }).error('Bridge write failed');
+      this.emit('portError', error, to);
     });
   }
 
