@@ -10,10 +10,10 @@ CORS is enabled so a separately hosted UI can call the API.
 
 ### `GET /` and `GET /api/health`
 
-Liveness check.
+Liveness check. `version` is the sniffer package version that process was built from.
 
 ```json
-{ "ok": true, "service": "ham-radio-sniffer" }
+{ "ok": true, "service": "ham-radio-sniffer", "version": "0.1.0" }
 ```
 
 ### `GET /api/ports`
@@ -33,7 +33,23 @@ Lists serial ports available on the machine running the sniffer.
 
 ### `GET /api/sniffer`
 
-Current session status. `running` is `false` until `POST /api/sniffer/start` succeeds.
+Current session status. `running` is `false` until `POST /api/sniffer/start` succeeds. While a bridge is running, status also includes live diagnostics:
+
+- `computerPortOpen` / `radioPortOpen`
+- `bytesComputerToRadio` / `bytesRadioToComputer` (bytes the UART delivered, even if the other port is closed)
+- `writeErrors` (dropped or failed forwards)
+
+Zero bytes with both ports open means Node never received data on those devices.
+
+### Logging
+
+Console logging uses [loglayer](https://loglayer.dev/). Set `SNIFFER_LOG_LEVEL` or `LOG_LEVEL` to `debug`, `info` (default), `warn`, or `error`.
+
+```bash
+SNIFFER_LOG_LEVEL=debug yarn start
+```
+
+`info` logs port open/close and the **first** bytes on each port (raw stream and parser). `debug` logs every chunk as hex. If you see raw data in the process log but the UI stays at 0 bytes, the byte-length parser is not firing. If you see neither, the selected device is not receiving.
 
 ### `POST /api/sniffer/start`
 
@@ -48,7 +64,7 @@ Starts a single bridge between two ports. Returns `409` if a session is already 
 }
 ```
 
-`computerPort` is the programming-cable side; `radioPort` is the radio side. They must be different paths.
+`computerPort` is the debug-cable side (computer ↔ sniffer); `radioPort` is the programming-cable side (sniffer ↔ radio). They must be different paths.
 
 ### `POST /api/sniffer/stop`
 

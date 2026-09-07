@@ -1,6 +1,6 @@
 import type { ILogLayer } from 'loglayer';
 import type { SnifferEvent, SnifferPacket, SnifferStatus, StartSnifferRequest } from '../shared/types/sniffer.ts';
-import { createDefaultLogger } from './logger.ts';
+import { createDefaultLogger, resolveSnifferLogLevel } from './logger.ts';
 import { RadioSniffer, type RadioSnifferOptions } from './radio-sniffer.ts';
 
 export class SnifferConflictError extends Error {
@@ -32,10 +32,17 @@ export class SnifferSession {
   constructor(options: { createSniffer?: RadioSnifferFactory; logger?: ILogLayer } = {}) {
     this.createSniffer = options.createSniffer ?? ((snifferOptions) => new RadioSniffer(snifferOptions));
     this.logger = options.logger ?? createDefaultLogger();
+    this.logger.withMetadata({ level: resolveSnifferLogLevel() }).info('Sniffer logger ready');
   }
 
   public getStatus(): SnifferStatus {
-    return { ...this.status };
+    const stats = this.sniffer?.getStats();
+
+    return {
+      ...this.status,
+      ...stats,
+      packetCount: this.packets.length,
+    };
   }
 
   public getPackets(): SnifferPacket[] {
@@ -56,6 +63,8 @@ export class SnifferSession {
       radioPort: request.radioPort,
       baudRate: request.baudRate,
       logFile: request.logFile,
+      rts: request.rts,
+      dtr: request.dtr,
       logger: this.logger,
     });
 
@@ -71,6 +80,10 @@ export class SnifferSession {
 
     sniffer.on('portError', (error, source) => {
       this.publish({ type: 'error', message: error.message, source });
+    });
+
+    sniffer.on('stats', () => {
+      this.publish({ type: 'status', status: this.getStatus() });
     });
 
     try {
@@ -89,6 +102,9 @@ export class SnifferSession {
       logFile: sniffer.getLogFilePath(),
       startedAt: this.startedAt,
       packetCount: 0,
+      rts: request.rts ?? true,
+      dtr: request.dtr ?? true,
+      ...sniffer.getStats(),
     };
 
     this.logger.withMetadata(this.status).info('Sniffer session started');
@@ -105,18 +121,29 @@ export class SnifferSession {
     try {
       // Capture before and after close so buffered bytes are retained for save.
       const logBeforeStop = this.sniffer?.getLogData();
+      const stats = this.sniffer?.getStats();
       this.sniffer?.stop();
       this.lastLogData = this.sniffer?.getLogData() ?? logBeforeStop;
+      this.status = {
+        ...this.status,
+        ...stats,
+        running: false,
+        packetCount: this.packets.length,
+        computerPortOpen: false,
+        radioPortOpen: false,
+      };
     } catch (error) {
       this.logger.withError(error).error('Failed to stop sniffer cleanly');
+      this.status = {
+        ...this.status,
+        running: false,
+        packetCount: this.packets.length,
+        computerPortOpen: false,
+        radioPortOpen: false,
+      };
     }
 
     this.sniffer = undefined;
-    this.status = {
-      ...this.status,
-      running: false,
-      packetCount: this.packets.length,
-    };
 
     this.logger.info('Sniffer session stopped');
     this.publish({ type: 'status', status: this.getStatus() });
@@ -146,6 +173,7 @@ export class SnifferSession {
       packetCount: this.packets.length,
     };
     this.publish({ type: 'packet', packet: recorded });
+    this.publish({ type: 'status', status: this.getStatus() });
   }
 
   private publish(event: SnifferEvent): void {

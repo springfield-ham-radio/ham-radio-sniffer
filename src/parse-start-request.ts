@@ -47,6 +47,18 @@ function readOptionalBaudRate(value: unknown): number | undefined {
   return value;
 }
 
+function readOptionalBoolean(value: unknown, fieldName: string): boolean | undefined {
+  if (value === undefined || value === null || value === '') {
+    return undefined;
+  }
+
+  if (typeof value !== 'boolean') {
+    throw new StartRequestError(`${fieldName} must be a boolean`);
+  }
+
+  return value;
+}
+
 /**
  * Validates a JSON body for POST /api/sniffer/start.
  *
@@ -81,6 +93,18 @@ export function parseStartSnifferRequest(body: unknown): StartSnifferRequest {
 
   if (logFile !== undefined) {
     request.logFile = logFile;
+  }
+
+  const rts = readOptionalBoolean(record.rts, 'rts');
+
+  if (rts !== undefined) {
+    request.rts = rts;
+  }
+
+  const dtr = readOptionalBoolean(record.dtr, 'dtr');
+
+  if (dtr !== undefined) {
+    request.dtr = dtr;
   }
 
   return request;

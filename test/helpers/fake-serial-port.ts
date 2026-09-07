@@ -6,10 +6,16 @@ export class FakeSerialPort extends EventEmitter implements BridgedSerialPort {
   isOpen = true;
   readonly written: Buffer[] = [];
   readonly parser = new EventEmitter();
+  signals: { rts?: boolean; dtr?: boolean } | undefined;
 
   constructor(path: string) {
     super();
     this.path = path;
+  }
+
+  set(signals: { rts?: boolean; dtr?: boolean }, callback?: (error?: Error | null) => void): void {
+    this.signals = { rts: signals.rts, dtr: signals.dtr };
+    callback?.(null);
   }
 
   pipe(_transform: unknown): { on(event: 'data', listener: (data: Buffer) => void): unknown } {

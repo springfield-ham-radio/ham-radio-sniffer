@@ -27,6 +27,22 @@ class FakeRadioSniffer extends EventEmitter {
     return this.logData;
   }
 
+  getStats(): {
+    bytesComputerToRadio: number;
+    bytesRadioToComputer: number;
+    writeErrors: number;
+    computerPortOpen: boolean;
+    radioPortOpen: boolean;
+  } {
+    return {
+      bytesComputerToRadio: 0,
+      bytesRadioToComputer: 0,
+      writeErrors: 0,
+      computerPortOpen: this.started && !this.stopped,
+      radioPortOpen: this.started && !this.stopped,
+    };
+  }
+
   emitPacket(packet: Omit<SnifferPacket, 'id'>): void {
     this.logData = {
       metadata: { startTime: '2026-08-28T19:00:00.000Z', totalEntries: 1, version: '1.0.0' },
@@ -57,6 +73,10 @@ describe('SnifferSession', () => {
     expect(status.baudRate).to.equal(19200);
     expect(status.logFile).to.equal('test-sniffer.json');
     expect(status.packetCount).to.equal(0);
+    expect(status.computerPortOpen).to.equal(true);
+    expect(status.radioPortOpen).to.equal(true);
+    expect(status.bytesComputerToRadio).to.equal(0);
+    expect(status.writeErrors).to.equal(0);
   });
 
   it('should reject a second start while running', () => {

@@ -11,10 +11,12 @@ export interface BridgedSerialPort {
   pipe(transform: unknown): { on(event: 'data', listener: (data: Buffer) => void): unknown };
   write(data: Buffer | Uint8Array, callback?: (error?: Error | null) => void): boolean;
   close(callback?: (error?: Error | null) => void): void;
-  on(event: 'error' | 'open' | 'close', listener: (...args: unknown[]) => void): unknown;
+  on(event: 'error' | 'open' | 'close' | 'data', listener: (...args: unknown[]) => void): unknown;
+  open?(callback?: (error?: Error | null) => void): void;
+  set?(signals: { rts?: boolean; dtr?: boolean }, callback?: (error?: Error | null) => void): void;
 }
 
-export type SerialPortFactory = (options: { path: string; baudRate: number }) => BridgedSerialPort;
+export type SerialPortFactory = (options: { path: string; baudRate: number; rtscts?: boolean }) => BridgedSerialPort;
 
 export interface SnifferTrafficLogger {
   logSend(data: Uint8Array, description?: string): void;
@@ -33,11 +35,10 @@ export interface RadioSnifferOptions {
   serialPortFactory?: SerialPortFactory;
   trafficLogger?: SnifferTrafficLogger;
   packetIdleMs?: number;
-}
-
-export interface RadioSnifferEvents {
-  packet: [packet: Omit<SnifferPacket, 'id'>];
-  portError: [error: Error, source: 'computer' | 'radio'];
+  /** RTS after open. Defaults to true. */
+  rts?: boolean;
+  /** DTR after open. Defaults to true. */
+  dtr?: boolean;
 }
 
 export type BridgeStats = Pick<
@@ -47,10 +48,26 @@ export type BridgeStats = Pick<
   | 'writeErrors'
   | 'computerPortOpen'
   | 'radioPortOpen'
+  | 'rts'
+  | 'dtr'
 >;
 
-function createSerialPort({ path, baudRate }: { path: string; baudRate: number }): BridgedSerialPort {
-  return new SerialPort({ path, baudRate });
+export interface RadioSnifferEvents {
+  packet: [packet: Omit<SnifferPacket, 'id'>];
+  portError: [error: Error, source: 'computer' | 'radio'];
+  stats: [stats: BridgeStats];
+}
+
+function createSerialPort({
+  path,
+  baudRate,
+  rtscts = false,
+}: {
+  path: string;
+  baudRate: number;
+  rtscts?: boolean;
+}): BridgedSerialPort {
+  return new SerialPort({ path, baudRate, autoOpen: false, rtscts });
 }
 
 /**
@@ -79,6 +96,12 @@ export class RadioSniffer extends EventEmitter<RadioSnifferEvents> {
   private bytesComputerToRadio = 0;
   private bytesRadioToComputer = 0;
   private writeErrors = 0;
+  private seenRawComputer = false;
+  private seenRawRadio = false;
+  private seenParserComputer = false;
+  private seenParserRadio = false;
+  private readonly rts: boolean;
+  private readonly dtr: boolean;
 
   constructor(options: RadioSnifferOptions) {
     super();
@@ -88,6 +111,8 @@ export class RadioSniffer extends EventEmitter<RadioSnifferEvents> {
     this.trafficLogger = options.trafficLogger ?? new SerialLogger(options.logFile ?? this.generateLogFileName());
     this.packetIdleMs = options.packetIdleMs ?? 15;
     this.startedAt = Date.now();
+    this.rts = options.rts ?? true;
+    this.dtr = options.dtr ?? true;
   }
 
   public getLogFilePath(): string {
@@ -105,6 +130,8 @@ export class RadioSniffer extends EventEmitter<RadioSnifferEvents> {
       writeErrors: this.writeErrors,
       computerPortOpen: this.computerPort?.isOpen ?? false,
       radioPortOpen: this.radioPort?.isOpen ?? false,
+      rts: this.rts,
+      dtr: this.dtr,
     };
   }
 
@@ -117,6 +144,10 @@ export class RadioSniffer extends EventEmitter<RadioSnifferEvents> {
     this.bytesComputerToRadio = 0;
     this.bytesRadioToComputer = 0;
     this.writeErrors = 0;
+    this.seenRawComputer = false;
+    this.seenRawRadio = false;
+    this.seenParserComputer = false;
+    this.seenParserRadio = false;
 
     this.logger
       .withMetadata({
@@ -124,6 +155,8 @@ export class RadioSniffer extends EventEmitter<RadioSnifferEvents> {
         computerPort: this.options.computerPort,
         radioPort: this.options.radioPort,
         baudRate,
+        rts: this.rts,
+        dtr: this.dtr,
       })
       .info('Sniffer started');
 
@@ -152,7 +185,7 @@ export class RadioSniffer extends EventEmitter<RadioSnifferEvents> {
   private openPort(path: string, baudRate: number, source: 'computer' | 'radio'): BridgedSerialPort {
     this.logger.withMetadata({ port: path, baudRate }).info(`Opening ${source} port`);
 
-    const port = this.serialPortFactory({ path, baudRate });
+    const port = this.serialPortFactory({ path, baudRate, rtscts: false });
 
     port.on('error', (error: unknown) => {
       const portError = error instanceof Error ? error : new Error(String(error));
@@ -161,14 +194,61 @@ export class RadioSniffer extends EventEmitter<RadioSnifferEvents> {
     });
 
     port.on('open', () => {
-      this.logger.withMetadata({ port: path }).info(`${source} port opened`);
+      this.applyControlLines(port, source, path);
+      this.logger.withMetadata({ port: path, isOpen: port.isOpen }).info(`${source} port opened`);
+      this.emit('stats', this.getStats());
     });
 
     port.on('close', () => {
       this.logger.withMetadata({ port: path, ...this.getStats() }).warn(`${source} port closed`);
+      this.emit('stats', this.getStats());
     });
 
+    port.on('data', (...args: unknown[]) => {
+      this.logRawPortData(source, args[0]);
+    });
+
+    if (!port.isOpen && typeof port.open === 'function') {
+      port.open((error) => {
+        if (!error) {
+          return;
+        }
+
+        const portError = error instanceof Error ? error : new Error(String(error));
+        this.logger.withError(portError).error(`${source} port open failed`);
+        this.emit('portError', portError, source);
+      });
+    } else if (port.isOpen) {
+      this.applyControlLines(port, source, path);
+    }
+
     return port;
+  }
+
+  /**
+   * Assert RTS/DTR after open. node-serialport does not take these in the
+   * constructor; USB programming cables need an explicit `set()` so the radio
+   * sees a deterministic line state instead of the adapter default.
+   */
+  private applyControlLines(port: BridgedSerialPort, source: 'computer' | 'radio', path: string): void {
+    if (typeof port.set !== 'function') {
+      this.logger.withMetadata({ port: path, source }).warn(`${source} port has no RTS/DTR control`);
+      return;
+    }
+
+    const rts = this.rts;
+    const dtr = this.dtr;
+
+    port.set({ rts, dtr }, (error) => {
+      if (error) {
+        const portError = error instanceof Error ? error : new Error(String(error));
+        this.logger.withError(portError).withMetadata({ port: path, rts, dtr }).error(`${source} port RTS/DTR failed`);
+        this.emit('portError', portError, source);
+        return;
+      }
+
+      this.logger.withMetadata({ port: path, rts, dtr }).info(`${source} port RTS/DTR set`);
+    });
   }
 
   private setupDataHandlers(): void {
@@ -180,18 +260,74 @@ export class RadioSniffer extends EventEmitter<RadioSnifferEvents> {
     const radioParser = this.radioPort.pipe(new ByteLengthParser({ length: 1 }));
 
     computerParser.on('data', (data: Buffer) => {
-      this.forward(this.radioPort, data, 'computer', 'radio');
-      const bytes = Uint8Array.from(data);
-      this.trafficLogger.logSend(bytes, 'Computer to Radio');
-      this.bufferPacket(bytes, 'COMPUTER->RADIO', 'Computer to Radio');
+      this.handleParsedData('computer', data);
     });
 
     radioParser.on('data', (data: Buffer) => {
-      this.forward(this.computerPort, data, 'radio', 'computer');
-      const bytes = Uint8Array.from(data);
-      this.trafficLogger.logReceive(bytes, 'Radio to Computer');
-      this.bufferPacket(bytes, 'RADIO->COMPUTER', 'Radio to Computer');
+      this.handleParsedData('radio', data);
     });
+  }
+
+  /**
+   * Count and log bytes as soon as the UART delivers them, even if the other
+   * side of the bridge is not open yet. That is the signal we need when a
+   * terminal is transmitting and the Traffic panel stays empty.
+   */
+  private handleParsedData(source: 'computer' | 'radio', data: Buffer): void {
+    const bytes = Uint8Array.from(data);
+    const hex = formatHex(bytes);
+
+    if (source === 'computer') {
+      this.bytesComputerToRadio += data.length;
+      this.logFirstAndDebug('computer', 'parser', hex, data.length, this.seenParserComputer);
+      this.seenParserComputer = true;
+      this.forward(this.radioPort, data, 'computer', 'radio');
+      this.trafficLogger.logSend(bytes, 'Computer to Radio');
+      this.bufferPacket(bytes, 'COMPUTER->RADIO', 'Computer to Radio');
+      return;
+    }
+
+    this.bytesRadioToComputer += data.length;
+    this.logFirstAndDebug('radio', 'parser', hex, data.length, this.seenParserRadio);
+    this.seenParserRadio = true;
+    this.forward(this.computerPort, data, 'radio', 'computer');
+    this.trafficLogger.logReceive(bytes, 'Radio to Computer');
+    this.bufferPacket(bytes, 'RADIO->COMPUTER', 'Radio to Computer');
+  }
+
+  private logRawPortData(source: 'computer' | 'radio', chunk: unknown): void {
+    const buffer = toBuffer(chunk);
+
+    if (buffer.length === 0) {
+      return;
+    }
+
+    const hex = formatHex(buffer);
+    const alreadySeen = source === 'computer' ? this.seenRawComputer : this.seenRawRadio;
+
+    if (source === 'computer') {
+      this.seenRawComputer = true;
+    } else {
+      this.seenRawRadio = true;
+    }
+
+    this.logFirstAndDebug(source, 'raw', hex, buffer.length, alreadySeen);
+  }
+
+  private logFirstAndDebug(
+    source: 'computer' | 'radio',
+    stage: 'raw' | 'parser',
+    hex: string,
+    bytes: number,
+    alreadySeen: boolean,
+  ): void {
+    const metadata = { source, stage, bytes, hex };
+
+    if (!alreadySeen) {
+      this.logger.withMetadata(metadata).info(`First ${source}-port ${stage} data`);
+    }
+
+    this.logger.withMetadata(metadata).debug(`${source} ${stage} data`);
   }
 
   private forward(
@@ -208,12 +344,6 @@ export class RadioSniffer extends EventEmitter<RadioSnifferEvents> {
         .withMetadata({ bytes: data.length, from, to, open: destination?.isOpen ?? false })
         .warn(`Dropping bridge write; ${to} port not open`);
       return;
-    }
-
-    if (from === 'computer') {
-      this.bytesComputerToRadio += data.length;
-    } else {
-      this.bytesRadioToComputer += data.length;
     }
 
     destination.write(data, (error) => {
@@ -274,6 +404,7 @@ export class RadioSniffer extends EventEmitter<RadioSnifferEvents> {
     this.pendingBytes = [];
     this.pendingDescription = undefined;
     this.emit('packet', packet);
+    this.emit('stats', this.getStats());
   }
 
   private formatTimestamp(elapsedMs: number): string {
@@ -302,4 +433,20 @@ export class RadioSniffer extends EventEmitter<RadioSnifferEvents> {
       this.idleTimer = undefined;
     }
   }
+}
+
+function formatHex(data: Uint8Array): string {
+  return Array.from(data, (byte) => byte.toString(16).padStart(2, '0').toUpperCase()).join(' ');
+}
+
+function toBuffer(chunk: unknown): Buffer {
+  if (Buffer.isBuffer(chunk)) {
+    return chunk;
+  }
+
+  if (chunk instanceof Uint8Array) {
+    return Buffer.from(chunk);
+  }
+
+  return Buffer.alloc(0);
 }

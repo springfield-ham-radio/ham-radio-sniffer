@@ -1,3 +1,19 @@
+export const SNIFFER_SERVICE_NAME = 'ham-radio-sniffer';
+
+export interface SnifferHealth {
+  ok: boolean;
+  service: string;
+  version: string;
+}
+
+export function snifferHealthPayload(version: string): SnifferHealth {
+  return {
+    ok: true,
+    service: SNIFFER_SERVICE_NAME,
+    version,
+  };
+}
+
 export type SnifferDirection = 'COMPUTER->RADIO' | 'RADIO->COMPUTER';
 
 export interface SnifferPacket {
@@ -24,6 +40,13 @@ export interface StartSnifferRequest {
   radioPort: string;
   baudRate?: number;
   logFile?: string;
+  /**
+   * RTS line after open. Defaults to true. TH-F6 CAT needs false; TM-D710 clone
+   * cables typically need true.
+   */
+  rts?: boolean;
+  /** DTR line after open. Defaults to true. */
+  dtr?: boolean;
 }
 
 export interface SnifferStatus {
@@ -42,6 +65,10 @@ export interface SnifferStatus {
   writeErrors?: number;
   computerPortOpen?: boolean;
   radioPortOpen?: boolean;
+  /** Resolved RTS line applied to both ports after open. */
+  rts?: boolean;
+  /** Resolved DTR line applied to both ports after open. */
+  dtr?: boolean;
 }
 
 export interface SnifferLogResponse {

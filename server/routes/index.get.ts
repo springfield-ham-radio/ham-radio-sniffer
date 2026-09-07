@@ -1,6 +1,6 @@
+import { snifferHealthPayload } from '../../shared/types/sniffer';
+
 export default defineEventHandler(() => {
-  return {
-    ok: true,
-    service: 'ham-radio-sniffer',
-  };
+  const config = useRuntimeConfig();
+  return snifferHealthPayload(String(config.public.snifferVersion ?? ''));
 });
