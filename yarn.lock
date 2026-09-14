@@ -872,30 +872,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@loglayer/context-manager@npm:1.2.0":
-  version: 1.2.0
-  resolution: "@loglayer/context-manager@npm:1.2.0"
-  dependencies:
-    "@loglayer/shared": "npm:3.3.0"
-  checksum: 10c0/ed2358a073db911af302d6a5ddd52ca773d97c2a0a25135408fa9361dc53fd7eae3d1e78120e50af50a0382bee0f8dbcf92a2e6fe493e4243aa17512aabe3569
-  languageName: node
-  linkType: hard
-
 "@loglayer/context-manager@npm:2.3.0":
   version: 2.3.0
   resolution: "@loglayer/context-manager@npm:2.3.0"
   dependencies:
     "@loglayer/shared": "npm:4.4.0"
   checksum: 10c0/2a7f0bab5c0911e5ee358d6999957d8fe0280d4b2f501de14637186beac535e1609f4631b1ef7d05e4df7edbf3da64b1176f61c08904f9bb660f30e77474f290
-  languageName: node
-  linkType: hard
-
-"@loglayer/log-level-manager@npm:1.0.5":
-  version: 1.0.5
-  resolution: "@loglayer/log-level-manager@npm:1.0.5"
-  dependencies:
-    "@loglayer/shared": "npm:3.3.0"
-  checksum: 10c0/63fd0366981cc99b8d92cc58721cdf4473b40f7083d6573c8d96c4e1d9bd3bcfb76cbd3c8c38402b092827758f37c36acd897596fc4f8d51e673527612946ff5
   languageName: node
   linkType: hard
 
@@ -908,15 +890,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@loglayer/plugin@npm:2.2.7":
-  version: 2.2.7
-  resolution: "@loglayer/plugin@npm:2.2.7"
-  dependencies:
-    "@loglayer/shared": "npm:3.3.0"
-  checksum: 10c0/d22dbb8b4df5da8bc7886abbaf56829a56967f43ff7d633591f33591f61470de143ec2f7dd3ba460726922682d824410e0a82c1cc046265b49d13752979f5eb4
-  languageName: node
-  linkType: hard
-
 "@loglayer/plugin@npm:3.3.0":
   version: 3.3.0
   resolution: "@loglayer/plugin@npm:3.3.0"
@@ -926,26 +899,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@loglayer/shared@npm:3.3.0":
-  version: 3.3.0
-  resolution: "@loglayer/shared@npm:3.3.0"
-  checksum: 10c0/53193a7db1937ce5fe2b6e4882ebade36fc5091386ec2db358672e9ecfba54a0141d955280675b39deed2f8f4a7b7346dd5c9628a8a7f90358b3bbb1cba80f3c
-  languageName: node
-  linkType: hard
-
 "@loglayer/shared@npm:4.4.0":
   version: 4.4.0
   resolution: "@loglayer/shared@npm:4.4.0"
   checksum: 10c0/c824a4adb76d627a19a4d32fa3da16130374e4a67668a266d629279b9b6243de9bb9849cdcd5528cf7de9a67b0df67ced53cbb23eb46dfc21ae5cb4c716470e6
-  languageName: node
-  linkType: hard
-
-"@loglayer/transport@npm:2.3.13":
-  version: 2.3.13
-  resolution: "@loglayer/transport@npm:2.3.13"
-  dependencies:
-    "@loglayer/shared": "npm:3.3.0"
-  checksum: 10c0/71aac78e852cfd3cc383cbe3f093de14679858f24d181cdedcc53531cd2ecf07f4e639c0a32d8712370d8f92f4663a19f257cc7c48b9cc8d84ee4902b2258fbd
   languageName: node
   linkType: hard
 
@@ -2243,26 +2200,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@springfield/ham-radio-api@npm:^17.9.0":
-  version: 17.9.0
-  resolution: "@springfield/ham-radio-api@npm:17.9.0"
+"@springfield/ham-radio-api@npm:^17.9.1":
+  version: 17.9.1
+  resolution: "@springfield/ham-radio-api@npm:17.9.1"
   dependencies:
-    loglayer: "npm:^8.5.0"
+    loglayer: "npm:^9.4.0"
     ts-brand: "npm:^0.2.0"
-  checksum: 10c0/3ae00673dfccef4b6eeee27e38bd1a68a7e85f11139e0e8f26f834b325babdb0672ab8826035f7b4f34199620c88e2bcf8a57a94ead86ed0f79ba270b344353a
+  checksum: 10c0/f43fb7ffa7d80716c1792e909115837f5829ac9f4ae0728ad5fe54f249c63fc33bbc1fe03ef0f5f5ce9a59f29fddca8669e5b0e8dbd2ac5910565d25c3693062
   languageName: node
   linkType: hard
 
-"@springfield/ham-radio-driver@npm:^3.3.2":
-  version: 3.3.2
-  resolution: "@springfield/ham-radio-driver@npm:3.3.2"
+"@springfield/ham-radio-driver@npm:^3.3.3":
+  version: 3.3.3
+  resolution: "@springfield/ham-radio-driver@npm:3.3.3"
   dependencies:
     "@serialport/parser-byte-length": "npm:^13.0.0"
-    "@springfield/ham-radio-api": "npm:^17.9.0"
-    "@springfield/ham-radio-utils": "npm:^4.12.0"
+    "@springfield/ham-radio-api": "npm:^17.9.1"
+    "@springfield/ham-radio-utils": "npm:^4.12.1"
     loglayer: "npm:^9.4.0"
     serialport: "npm:^13.0.0"
-  checksum: 10c0/83e94fc2424bc8d7f9020934f6183d142befc579703a35f0887865fe3b6315d58e4d74b39ed04ec7728842c50c5e8edacce67b2ddd50029302f62abb4dc85344
+  checksum: 10c0/fb293b48f74fc5b44d5eb9572b9be39483cb44135f7fdb3f5efd0240403c0911ccdc29c0beae2f795e2bf0edcdf248cedc48169e5e0d1e621a8ff437ed6df18c
   languageName: node
   linkType: hard
 
@@ -2273,8 +2230,8 @@ __metadata:
     "@commitlint/cli": "npm:21.2.2"
     "@commitlint/config-conventional": "npm:21.2.2"
     "@serialport/parser-byte-length": "npm:^13.0.0"
-    "@springfield/ham-radio-driver": "npm:^3.3.2"
-    "@springfield/ham-radio-utils": "npm:^4.12.0"
+    "@springfield/ham-radio-driver": "npm:^3.3.3"
+    "@springfield/ham-radio-utils": "npm:^4.12.1"
     "@types/chai": "npm:5.2.3"
     "@types/node": "npm:26.5.1"
     chai: "npm:6.2.2"
@@ -2289,17 +2246,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@springfield/ham-radio-utils@npm:^4.12.0":
-  version: 4.12.0
-  resolution: "@springfield/ham-radio-utils@npm:4.12.0"
+"@springfield/ham-radio-utils@npm:^4.12.1":
+  version: 4.12.1
+  resolution: "@springfield/ham-radio-utils@npm:4.12.1"
   dependencies:
-    "@springfield/ham-radio-api": "npm:^17.9.0"
+    "@springfield/ham-radio-api": "npm:^17.9.1"
     ajv: "npm:^8.20.0"
     ajv-formats: "npm:^3.0.1"
     fishery: "npm:^2.4.0"
     loglayer: "npm:^9.4.0"
     sprintf-js: "npm:^1.1.3"
-  checksum: 10c0/25a9c4bc4bab8229cfc105801be69a11d2c9d0cb9321a17f0cae730bd889232e5458bfbbfc693f290abc42d9710eeec4f3d2ee771abd2c08d54370ed0817c53d
+  checksum: 10c0/e3fa5be0ee63f0c6f2105033716571148a54abf8a0bbcf3dd771e6d5da9b1b287c8c52a7393915d9a59a4c953d232d52ef12e2f6f3402f1fe2743781fc16789f
   languageName: node
   linkType: hard
 
@@ -3224,12 +3181,12 @@ __metadata:
   linkType: hard
 
 "brace-expansion@npm:^1.1.7":
-  version: 1.1.11
-  resolution: "brace-expansion@npm:1.1.11"
+  version: 1.1.18
+  resolution: "brace-expansion@npm:1.1.18"
   dependencies:
     balanced-match: "npm:^1.0.0"
     concat-map: "npm:0.0.1"
-  checksum: 10c0/695a56cd058096a7cb71fb09d9d6a7070113c7be516699ed361317aca2ec169f618e28b8af352e02ab4233fb54eb0168460a40dc320bab0034b36ab59aaad668
+  checksum: 10c0/3432c18a9e2ebf94162d4effb62198bd0adea06a9f332b2c0188df5d5e30b1e51ea3c848b6608e47d0b857ebe1ea5b3888ed3326dd3c4f6f9645c94153cf9c14
   languageName: node
   linkType: hard
 
@@ -4439,9 +4396,9 @@ __metadata:
   linkType: hard
 
 "fast-uri@npm:^3.0.1":
-  version: 3.1.0
-  resolution: "fast-uri@npm:3.1.0"
-  checksum: 10c0/44364adca566f70f40d1e9b772c923138d47efeac2ae9732a872baafd77061f26b097ba2f68f0892885ad177becd065520412b8ffeec34b16c99433c5b9e2de7
+  version: 3.1.7
+  resolution: "fast-uri@npm:3.1.7"
+  checksum: 10c0/ca2baa4bde48fc7322bdc692c6636975943ebe4f6dd97e07d70b14e0ab85af2ff30de90f550f5ec2956684fe208e150d85d6cb5f3c74438c8ac1bf86bd435c13
   languageName: node
   linkType: hard
 
@@ -5256,13 +5213,13 @@ __metadata:
   linkType: hard
 
 "js-yaml@npm:^4.1.0":
-  version: 4.3.1
-  resolution: "js-yaml@npm:4.3.1"
+  version: 4.3.2
+  resolution: "js-yaml@npm:4.3.2"
   dependencies:
     argparse: "npm:^2.0.1"
   bin:
     js-yaml: bin/js-yaml.js
-  checksum: 10c0/13c500ca322e0c3f8c81686e6ecda96d2ea37b45247a420c17c7db36932d6965cc27391abc2d1a104501600e7f0d947a5f8b7be6db619c4fefa87901b3512807
+  checksum: 10c0/dedd34c2e8fef1d504687f1bc94ed0ee1311a1f78770fa2800352c6d59c635ccf555009d74e9afe529ae62199da2b1ccef30e53dc84dcd8d2d8187c22574bc97
   languageName: node
   linkType: hard
 
@@ -5533,19 +5490,6 @@ __metadata:
   version: 4.18.1
   resolution: "lodash@npm:4.18.1"
   checksum: 10c0/757228fc68805c59789e82185135cf85f05d0b2d3d54631d680ca79ec21944ec8314d4533639a14b8bcfbd97a517e78960933041a5af17ecb693ec6eecb99a27
-  languageName: node
-  linkType: hard
-
-"loglayer@npm:^8.5.0":
-  version: 8.5.0
-  resolution: "loglayer@npm:8.5.0"
-  dependencies:
-    "@loglayer/context-manager": "npm:1.2.0"
-    "@loglayer/log-level-manager": "npm:1.0.5"
-    "@loglayer/plugin": "npm:2.2.7"
-    "@loglayer/shared": "npm:3.3.0"
-    "@loglayer/transport": "npm:2.3.13"
-  checksum: 10c0/6a577a4b784a60b3b37fcef8a21c0ec156449030fa7d8620caab74df20a3e5cfe6bdfbdcd196aa9982275b20b9bd9480a29549566778da153a92ab0a71d814da
   languageName: node
   linkType: hard
 
@@ -6987,12 +6931,12 @@ __metadata:
   linkType: hard
 
 "postcss-selector-parser@npm:^7.0.0, postcss-selector-parser@npm:^7.1.5":
-  version: 7.1.5
-  resolution: "postcss-selector-parser@npm:7.1.5"
+  version: 7.1.6
+  resolution: "postcss-selector-parser@npm:7.1.6"
   dependencies:
     cssesc: "npm:^3.0.0"
     util-deprecate: "npm:^1.0.2"
-  checksum: 10c0/e277a136ef87ae2abbc77d38e0773bf6245975889ada3d7d785f515df4d2ab543322f9189e851d6a6bcd2d8e512a1164d1dfd5af2f5bbb2d177c687faf945038
+  checksum: 10c0/fc8279859896b96ef25b24d0289b2bfff7bce6647b247aa983939ff872e226663788d1ea57bddf9d1695119c071e5cdcb8b2a364ed4313502efe4b0319879154
   languageName: node
   linkType: hard
 
