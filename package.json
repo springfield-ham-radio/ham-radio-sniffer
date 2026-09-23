@@ -18,7 +18,7 @@
     "lint": "oxlint",
     "lint:fix": "oxlint --fix --fix-suggestions",
     "postinstall": "nuxt prepare",
-    "prepare": "husky",
+    "prepare": "husky && yarn build",
     "preview": "nuxt preview",
     "sniff": "tsx src/cli.ts",
     "start": "HOST=\"${HOST:-127.0.0.1}\" PORT=\"${PORT:-3010}\" node .output/server/index.mjs",
