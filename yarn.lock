@@ -2210,16 +2210,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@springfield/ham-radio-driver@npm:^3.4.1":
-  version: 3.4.1
-  resolution: "@springfield/ham-radio-driver@npm:3.4.1"
+"@springfield/ham-radio-driver@npm:^3.4.2":
+  version: 3.4.2
+  resolution: "@springfield/ham-radio-driver@npm:3.4.2"
   dependencies:
     "@serialport/parser-byte-length": "npm:^13.0.0"
     "@springfield/ham-radio-api": "npm:^17.10.0"
-    "@springfield/ham-radio-utils": "npm:^4.12.4"
+    "@springfield/ham-radio-utils": "npm:^4.14.0"
     loglayer: "npm:^9.4.0"
     serialport: "npm:^13.0.0"
-  checksum: 10c0/235e24c44ccad350bd1c2a7e9880203dfb9c4a94ead06fefb34f10368a16b5e32c0a9aa3d080f029dfd972b231f39335144aa1a16aa7fcd10130011fb715d486
+  checksum: 10c0/31fd05ba1031871f4e1cd9dc9c373932aa5d0664ff62ffed3113a9e629ed4f924c7ae3be3b9123b7492534f846b8e00c1121654560750f0cdd7606390a025233
   languageName: node
   linkType: hard
 
@@ -2230,7 +2230,7 @@ __metadata:
     "@commitlint/cli": "npm:21.2.2"
     "@commitlint/config-conventional": "npm:21.2.2"
     "@serialport/parser-byte-length": "npm:^13.0.0"
-    "@springfield/ham-radio-driver": "npm:^3.4.1"
+    "@springfield/ham-radio-driver": "npm:^3.4.2"
     "@springfield/ham-radio-utils": "npm:^4.14.0"
     "@types/node": "npm:26.5.1"
     husky: "npm:9.1.7"
@@ -2243,20 +2243,6 @@ __metadata:
     vitest: "npm:^5.0.1"
   languageName: unknown
   linkType: soft
-
-"@springfield/ham-radio-utils@npm:^4.12.4":
-  version: 4.12.4
-  resolution: "@springfield/ham-radio-utils@npm:4.12.4"
-  dependencies:
-    "@springfield/ham-radio-api": "npm:^17.10.0"
-    ajv: "npm:^8.20.0"
-    ajv-formats: "npm:^3.0.1"
-    fishery: "npm:^2.4.0"
-    loglayer: "npm:^9.4.0"
-    sprintf-js: "npm:^1.1.3"
-  checksum: 10c0/32b099dd545661c8ebaea025127e476fb785c7eff8299e1b77afa1621bca5d146476ab9d7621e095af78188714f86f60a540e8baf6d37b2f0a5c8b1a49c91cdb
-  languageName: node
-  linkType: hard
 
 "@springfield/ham-radio-utils@npm:^4.14.0":
   version: 4.14.0

@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@serialport/parser-byte-length": "^13.0.0",
-    "@springfield/ham-radio-driver": "^3.4.1",
+    "@springfield/ham-radio-driver": "^3.4.2",
     "@springfield/ham-radio-utils": "^4.14.0",
     "loglayer": "^9.4.0",
     "nuxt": "^4.3.0",
