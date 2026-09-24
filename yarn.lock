@@ -2231,7 +2231,7 @@ __metadata:
     "@commitlint/config-conventional": "npm:21.2.2"
     "@serialport/parser-byte-length": "npm:^13.0.0"
     "@springfield/ham-radio-driver": "npm:^3.4.1"
-    "@springfield/ham-radio-utils": "npm:^4.12.4"
+    "@springfield/ham-radio-utils": "npm:^4.14.0"
     "@types/node": "npm:26.5.1"
     husky: "npm:9.1.7"
     loglayer: "npm:^9.4.0"
@@ -2255,6 +2255,20 @@ __metadata:
     loglayer: "npm:^9.4.0"
     sprintf-js: "npm:^1.1.3"
   checksum: 10c0/32b099dd545661c8ebaea025127e476fb785c7eff8299e1b77afa1621bca5d146476ab9d7621e095af78188714f86f60a540e8baf6d37b2f0a5c8b1a49c91cdb
+  languageName: node
+  linkType: hard
+
+"@springfield/ham-radio-utils@npm:^4.14.0":
+  version: 4.14.0
+  resolution: "@springfield/ham-radio-utils@npm:4.14.0"
+  dependencies:
+    "@springfield/ham-radio-api": "npm:^17.10.0"
+    ajv: "npm:^8.20.0"
+    ajv-formats: "npm:^3.0.1"
+    fishery: "npm:^2.4.0"
+    loglayer: "npm:^9.4.0"
+    sprintf-js: "npm:^1.1.3"
+  checksum: 10c0/5e33baa1b51cbde6809be9dc1b291c270e4582c6cfa390548f490bfe9da96336e6ce98ef2966543f9fe9f73ea801d830a2289ec5239057ac3f7868047969455c
   languageName: node
   linkType: hard
 
