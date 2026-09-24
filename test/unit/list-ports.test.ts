@@ -1,5 +1,4 @@
-import { describe, it } from 'node:test';
-import { expect } from 'chai';
+import { describe, expect, it } from 'vitest';
 import { listSerialPorts } from '../../src/list-ports.ts';
 
 describe('listSerialPorts', () => {
@@ -16,7 +15,7 @@ describe('listSerialPorts', () => {
       },
     ]);
 
-    expect(ports).to.deep.equal([
+    expect(ports).toEqual([
       {
         path: '/dev/tty.usbserial-A',
         manufacturer: 'FTDI',

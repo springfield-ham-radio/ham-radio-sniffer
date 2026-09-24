@@ -1,5 +1,4 @@
-import { describe, it } from 'node:test';
-import { expect } from 'chai';
+import { describe, expect, it } from 'vitest';
 import { RadioSniffer } from '../../src/radio-sniffer.ts';
 import { FakeSerialPort, FakeTrafficLogger } from '../helpers/fake-serial-port.ts';
 import { MockLogLayer } from 'loglayer';
@@ -39,11 +38,11 @@ describe('RadioSniffer', () => {
     sniffer.start();
     computerPort.emitData([0x50, 0xbb]);
 
-    expect(radioPort.written).to.have.length(1);
-    expect(Array.from(radioPort.written[0] ?? [])).to.deep.equal([0x50, 0xbb]);
-    expect(packets).to.deep.equal([{ direction: 'COMPUTER->RADIO', data: [0x50, 0xbb] }]);
-    expect(trafficLogger.sent).to.have.length(1);
-    expect(sniffer.getStats()).to.deep.include({
+    expect(radioPort.written).toHaveLength(1);
+    expect(Array.from(radioPort.written[0] ?? [])).toEqual([0x50, 0xbb]);
+    expect(packets).toEqual([{ direction: 'COMPUTER->RADIO', data: [0x50, 0xbb] }]);
+    expect(trafficLogger.sent).toHaveLength(1);
+    expect(sniffer.getStats()).toMatchObject({
       bytesComputerToRadio: 2,
       bytesRadioToComputer: 0,
       writeErrors: 0,
@@ -52,9 +51,9 @@ describe('RadioSniffer', () => {
     });
 
     sniffer.stop();
-    expect(computerPort.isOpen).to.equal(false);
-    expect(radioPort.isOpen).to.equal(false);
-    expect(trafficLogger.closed).to.equal(true);
+    expect(computerPort.isOpen).toBe(false);
+    expect(radioPort.isOpen).toBe(false);
+    expect(trafficLogger.closed).toBe(true);
   });
 
   it('should forward radio bytes to the computer', () => {
@@ -82,9 +81,9 @@ describe('RadioSniffer', () => {
     sniffer.start();
     radioPort.emitData([0x06]);
 
-    expect(Array.from(computerPort.written[0] ?? [])).to.deep.equal([0x06]);
-    expect(packets).to.deep.equal([{ direction: 'RADIO->COMPUTER', data: [0x06] }]);
-    expect(sniffer.getStats().bytesRadioToComputer).to.equal(1);
+    expect(Array.from(computerPort.written[0] ?? [])).toEqual([0x06]);
+    expect(packets).toEqual([{ direction: 'RADIO->COMPUTER', data: [0x06] }]);
+    expect(sniffer.getStats().bytesRadioToComputer).toBe(1);
 
     sniffer.stop();
   });
@@ -115,8 +114,8 @@ describe('RadioSniffer', () => {
     sniffer.start();
     computerPort.emitData([0x0d]);
 
-    expect(packets).to.deep.equal([{ direction: 'COMPUTER->RADIO', data: [0x0d] }]);
-    expect(sniffer.getStats()).to.deep.include({
+    expect(packets).toEqual([{ direction: 'COMPUTER->RADIO', data: [0x0d] }]);
+    expect(sniffer.getStats()).toMatchObject({
       bytesComputerToRadio: 1,
       writeErrors: 1,
       radioPortOpen: false,

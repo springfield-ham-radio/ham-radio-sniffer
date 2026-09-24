@@ -1,5 +1,4 @@
-import { describe, it } from 'node:test';
-import { expect } from 'chai';
+import { describe, expect, it } from 'vitest';
 import { EventEmitter } from 'node:events';
 import { MockLogLayer } from 'loglayer';
 import { SnifferConflictError, SnifferSession } from '../../src/sniffer-session.ts';
@@ -66,17 +65,17 @@ describe('SnifferSession', () => {
       baudRate: 19200,
     });
 
-    expect(fakeSniffer.started).to.equal(true);
-    expect(status.running).to.equal(true);
-    expect(status.computerPort).to.equal('/dev/computer');
-    expect(status.radioPort).to.equal('/dev/radio');
-    expect(status.baudRate).to.equal(19200);
-    expect(status.logFile).to.equal('test-sniffer.json');
-    expect(status.packetCount).to.equal(0);
-    expect(status.computerPortOpen).to.equal(true);
-    expect(status.radioPortOpen).to.equal(true);
-    expect(status.bytesComputerToRadio).to.equal(0);
-    expect(status.writeErrors).to.equal(0);
+    expect(fakeSniffer.started).toBe(true);
+    expect(status.running).toBe(true);
+    expect(status.computerPort).toBe('/dev/computer');
+    expect(status.radioPort).toBe('/dev/radio');
+    expect(status.baudRate).toBe(19200);
+    expect(status.logFile).toBe('test-sniffer.json');
+    expect(status.packetCount).toBe(0);
+    expect(status.computerPortOpen).toBe(true);
+    expect(status.radioPortOpen).toBe(true);
+    expect(status.bytesComputerToRadio).toBe(0);
+    expect(status.writeErrors).toBe(0);
   });
 
   it('should reject a second start while running', () => {
@@ -87,11 +86,16 @@ describe('SnifferSession', () => {
 
     session.start({ computerPort: '/dev/computer', radioPort: '/dev/radio' });
 
-    expect(() => {
+    let thrown: unknown;
+
+    try {
       session.start({ computerPort: '/dev/computer', radioPort: '/dev/radio' });
-    })
-      .to.throw(SnifferConflictError)
-      .with.property('message', 'Sniffer is already running');
+    } catch (error) {
+      thrown = error;
+    }
+
+    expect(thrown).toBeInstanceOf(SnifferConflictError);
+    expect((thrown as Error).message).toBe('Sniffer is already running');
   });
 
   it('should record packets and notify subscribers', () => {
@@ -114,15 +118,15 @@ describe('SnifferSession', () => {
       data: [0x50],
     });
 
-    expect(session.getPackets()).to.have.length(1);
-    expect(session.getPackets()[0]?.id).to.equal(1);
-    expect(session.getStatus().packetCount).to.equal(1);
-    expect(events).to.include('packet');
+    expect(session.getPackets()).toHaveLength(1);
+    expect(session.getPackets()[0]?.id).toBe(1);
+    expect(session.getStatus().packetCount).toBe(1);
+    expect(events).toContain('packet');
 
     const stopped = session.stop();
-    expect(fakeSniffer.stopped).to.equal(true);
-    expect(stopped.running).to.equal(false);
-    expect(session.getLogData()).to.deep.equal({
+    expect(fakeSniffer.stopped).toBe(true);
+    expect(stopped.running).toBe(false);
+    expect(session.getLogData()).toEqual({
       metadata: { startTime: '2026-08-28T19:00:00.000Z', totalEntries: 1, version: '1.0.0' },
       entries: [{ timestamp: '000.010', elapsedMs: 10, direction: 'SEND', data: [0x50] }],
     });

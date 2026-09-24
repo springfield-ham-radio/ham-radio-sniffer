@@ -1,5 +1,4 @@
-import { describe, it } from 'node:test';
-import { expect } from 'chai';
+import { describe, expect, it } from 'vitest';
 import { parseStartSnifferRequest, StartRequestError } from '../../src/parse-start-request.ts';
 
 describe('parseStartSnifferRequest', () => {
@@ -11,7 +10,7 @@ describe('parseStartSnifferRequest', () => {
       logFile: 'capture.json',
     });
 
-    expect(request).to.deep.equal({
+    expect(request).toEqual({
       computerPort: '/dev/tty.usbserial-A',
       radioPort: '/dev/tty.usbserial-B',
       baudRate: 9600,
@@ -20,41 +19,61 @@ describe('parseStartSnifferRequest', () => {
   });
 
   it('should reject a missing computer port', () => {
-    expect(() => {
+    let thrown: unknown;
+
+    try {
       parseStartSnifferRequest({ radioPort: '/dev/ttyUSB0' });
-    })
-      .to.throw(StartRequestError)
-      .with.property('message', 'computerPort is required');
+    } catch (error) {
+      thrown = error;
+    }
+
+    expect(thrown).toBeInstanceOf(StartRequestError);
+    expect((thrown as Error).message).toBe('computerPort is required');
   });
 
   it('should reject the same path for both ports', () => {
-    expect(() => {
+    let thrown: unknown;
+
+    try {
       parseStartSnifferRequest({
         computerPort: '/dev/ttyUSB0',
         radioPort: '/dev/ttyUSB0',
       });
-    })
-      .to.throw(StartRequestError)
-      .with.property('message', 'computerPort and radioPort must be different');
+    } catch (error) {
+      thrown = error;
+    }
+
+    expect(thrown).toBeInstanceOf(StartRequestError);
+    expect((thrown as Error).message).toBe('computerPort and radioPort must be different');
   });
 
   it('should reject a non-positive baud rate', () => {
-    expect(() => {
+    let thrown: unknown;
+
+    try {
       parseStartSnifferRequest({
         computerPort: '/dev/ttyUSB0',
         radioPort: '/dev/ttyUSB1',
         baudRate: 0,
       });
-    })
-      .to.throw(StartRequestError)
-      .with.property('message', 'baudRate must be a positive integer');
+    } catch (error) {
+      thrown = error;
+    }
+
+    expect(thrown).toBeInstanceOf(StartRequestError);
+    expect((thrown as Error).message).toBe('baudRate must be a positive integer');
   });
 
   it('should reject a non-object body', () => {
-    expect(() => {
+    let thrown: unknown;
+
+    try {
       parseStartSnifferRequest(null);
-    })
-      .to.throw(StartRequestError)
-      .with.property('message', 'Request body must be a JSON object');
+    } catch (error) {
+      thrown = error;
+    }
+
+    expect(thrown).toBeInstanceOf(StartRequestError);
+    expect((thrown as Error).message).toBe('Request body must be a JSON object');
   });
 });
