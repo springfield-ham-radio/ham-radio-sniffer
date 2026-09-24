@@ -8,7 +8,7 @@ Docs: [Sniffer user guide](https://springfield-ham-radio.github.io/ham-radio-doc
 
 ## Requirements
 
-- Node.js 24 (see `.nvmrc`)
+- Node.js 26 (see `.nvmrc`)
 - Two serial devices: debug cable (computer ↔ sniffer) and programming cable (sniffer ↔ radio)
 
 ```bash
