@@ -10,15 +10,35 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
+      - uses: dtolnay/rust-toolchain@stable
         with:
-          node-version-file: .nvmrc
-      - run: corepack enable
-      - run: yarn install --immutable
-      - run: yarn test
-      - run: yarn lint
-      - run: yarn build
+          components: clippy, rustfmt
+      - name: Install libudev
+        run: sudo apt-get update && sudo apt-get install -y libudev-dev pkg-config
+      - run: cargo fmt --check
+      - run: cargo clippy --all-targets -- -D warnings
+      - run: cargo test
+      - run: cargo build --release
+
+  # Bookworm-era glibc, same Ubuntu release as the HamBench Raspberry Pi build.
+  linux-arm64:
+    runs-on: ubuntu-22.04-arm
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Install libudev
+        run: sudo apt-get update && sudo apt-get install -y libudev-dev pkg-config
+      - run: cargo test
+      - run: cargo build --release
+      - name: Stage the ARM64 binary
+        run: |
+          mkdir -p dist
+          cp target/release/ham-radio-sniffer dist/ham-radio-sniffer-linux-aarch64
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ham-radio-sniffer-linux-aarch64
+          path: dist/ham-radio-sniffer-linux-aarch64

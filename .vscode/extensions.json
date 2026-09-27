@@ -2,12 +2,7 @@
   "recommendations": [
     "editorconfig.editorconfig",
     "GitHub.vscode-pull-request-github",
-    "Gruntfuggly.todo-tree",
-    "redhat.vscode-yaml",
-    "streetsidesoftware.code-spell-checker",
-    "TypeScriptTeam.native-preview",
-    "VisualStudioExptTeam.vscodeintellicode",
-    "wayou.vscode-todo-highlight"
-  ],
-  "unwantedRecommendations": ["octref.vetur", "hookyqr.beautify", "dbaeumer.jshint", "ms-vscode.vscode-typescript-tslint-plugin"]
+    "rust-lang.rust-analyzer",
+    "streetsidesoftware.code-spell-checker"
+  ]
 }

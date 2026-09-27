@@ -1,6 +1,6 @@
 version: 2
 updates:
-  - package-ecosystem: npm
+  - package-ecosystem: cargo
     directory: /
     schedule:
       interval: weekly
@@ -8,19 +8,11 @@ updates:
     open-pull-requests-limit: 10
     commit-message:
       prefix: "fix"
-      prefix-development: "chore"
       include: "scope"
     groups:
-      production-npm:
-        dependency-type: production
-        update-types:
-          - minor
-          - patch
-      development-npm:
-        dependency-type: development
-        update-types:
-          - minor
-          - patch
+      cargo:
+        patterns:
+          - "*"
 
   - package-ecosystem: github-actions
     directory: /

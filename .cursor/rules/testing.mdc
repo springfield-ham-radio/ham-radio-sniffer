@@ -1,1 +1,11 @@
-../../../ham-radio-ops/.cursor/rules/testing.mdc
+---
+description: "Standards and practices for testing"
+globs: *.rs
+---
+
+# Testing
+
+Use test-driven development. Write a failing test, add the minimum code that makes it pass, then refactor while the tests stay green. Finish those three steps before starting the next behavior.
+
+- Tests live next to the code they cover, in the module's `tests` submodule.
+- `cargo test` runs the suite.
