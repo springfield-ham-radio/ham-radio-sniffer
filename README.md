@@ -29,3 +29,7 @@ The API listens on [http://127.0.0.1:3010](http://127.0.0.1:3010). `HOST` and `P
 ## Linux ARM64
 
 CI builds `ham-radio-sniffer-linux-aarch64` on `ubuntu-22.04-arm` and uploads it as an artifact. HamBench copies that binary when it installs the sniffer onto a Raspberry Pi.
+
+## License
+
+MIT. Copyright (c) 2026 Bryan Hunt. See [LICENSE](LICENSE).
