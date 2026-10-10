@@ -17,6 +17,8 @@ cargo build --release
 ./target/release/ham-radio-sniffer
 ```
 
+`./prepare.sh` fetches crates and runs `cargo build`. The ops mani `prepare` task runs that script.
+
 The API listens on [http://127.0.0.1:3010](http://127.0.0.1:3010). `HOST` and `PORT` override that. Loopback binds `127.0.0.1`; any other host binds `0.0.0.0`. There is no web UI in this project.
 
 ```bash
