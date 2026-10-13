@@ -38,7 +38,7 @@ jobs:
         run: |
           mkdir -p dist
           cp target/release/ham-radio-sniffer dist/ham-radio-sniffer-linux-aarch64
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: ham-radio-sniffer-linux-aarch64
           path: dist/ham-radio-sniffer-linux-aarch64
